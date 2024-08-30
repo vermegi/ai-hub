@@ -2288,6 +2288,217 @@
                             "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'vision')]"
                         },
                         {
+                            "name": "aiAddServicesSectionSpeech",
+                            "type": "Microsoft.Common.Section",
+                            "label": "Required services for the selected use case",
+                            "elements": [],
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar')]"
+                        },
+                        {
+                            "name": "aiSpeechSection",
+                            "type": "Microsoft.Common.Section",
+                            "label": "Azure AI Speech",
+                            "elements": [],
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar')]"
+                        },
+                        {
+                            "name": "aiSpeechInfo",
+                            "type": "Microsoft.Common.TextBlock",
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar')]",
+                            "options": {
+                                "icon": "None",
+                                "text": "Azure AI Speech is a unified service that offers innovative computer speech capabilities. Give your apps the ability to transcribe speech to text with high accuracy, produce natural-sounding text to speech voices, translate spoken audio, and use speaker recognition during conversations.",
+                                "link": {
+                                    "label": "Learn more",
+                                    "uri": "https://learn.microsoft.com/azure/ai-services/speech-service/overview"
+                                }
+                            }
+                        },
+                        {
+                            "name": "aiSpeechNetworkSection",
+                            "type": "Microsoft.Common.Section",
+                            "label": "Network Settings",
+                            "elements": [],
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
+                        },
+                        {
+                            "name": "aiSpeechDisableNetworkAccess",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "label": "Disable Public Network Access",
+                            "defaultValue": "Yes (recommended)",
+                            "toolTip": "",
+                            "constraints": {
+                                "allowedValues": [
+                                    {
+                                        "label": "Yes (recommended)",
+                                        "value": "Yes"
+                                    },
+                                    {
+                                        "label": "No",
+                                        "value": "No"
+                                    }
+                                ],
+                                "required": true
+                            },
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
+                        },
+                        {
+                            "name": "aispeechRestrictOutboundNetworkAccess",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "label": "Restric Outbound Network Access for AI Speech",
+                            "defaultValue": "Yes (recommended)",
+                            "toolTip": "",
+                            "constraints": {
+                                "allowedValues": [
+                                    {
+                                        "label": "Yes (recommended)",
+                                        "value": "Yes"
+                                    },
+                                    {
+                                        "label": "No",
+                                        "value": "No"
+                                    }
+                                ],
+                                "required": true
+                            },
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiSpeechDisableNetworkAccess, 'Yes'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
+                        },
+                        {
+                            "name": "aiSpeechNetworkingInfo",
+                            "type": "Microsoft.Common.InfoBox",
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiSpeechDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar'), not(equals(steps('basics').aiIntention, 'Multiple')))]",
+                            "options": {
+                                "icon": "warning",
+                                "text": "The VNet and subnet you select can be in a different Azure region then the Private Endpoint for AI Speech. Ensure you have connectivity to the other services you are creating."
+                            }
+                        },
+                        {
+                            "name": "aiSpeechVnetSelector",
+                            "type": "Microsoft.Solutions.ResourceSelector",
+                            "label": "Select an existing Virtual Network",
+                            "resourceType": "Microsoft.Network/virtualNetworks",
+                            "options": {
+                                "filter": {
+                                    "subscription": "onBasics",
+                                    "location": "all"
+                                }
+                            },
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiSpeechDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
+                        },
+                        {
+                            "name": "aiSpeechSubnets",
+                            "type": "Microsoft.Solutions.ArmApiControl",
+                            "request": {
+                                "method": "GET",
+                                "path": "[concat(steps('basics').resourceScope.subscription.id, '/resourceGroups/', last(take(split(steps('aiAuxiliarySettings').aiSpeechVnetSelector.id, '/'), 5)), '/providers/Microsoft.Network/virtualNetworks/', steps('aiAuxiliarySettings').aiSpeechVnetSelector.name,'/subnets?api-version=2022-01-01')]"
+                            }
+                        },
+                        {
+                            "name": "aiSpeechSubnetList",
+                            "type": "Microsoft.Common.DropDown",
+                            "label": "Select an existing Subnet",
+                            "filter": true,
+                            "constraints": {
+                                "allowedValues": "[map(steps('aiAuxiliarySettings').aiSpeechSubnets.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.id, '\"}')))]",
+                                "required": true
+                            },
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiSpeechDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
+                        },
+                        {  
+                            "name": "aiSpeechSelectedVnetDetails",  
+                            "type": "Microsoft.Solutions.ArmApiControl",  
+                            "request": {  
+                                "method": "GET",  
+                                "path": "[concat(steps('basics').resourceScope.subscription.id, '/resourceGroups/', last(take(split(steps('aiAuxiliarySettings').aiSpeechVnetSelector.id, '/'), 5)), '/providers/Microsoft.Network/virtualNetworks/', steps('aiAuxiliarySettings').aiSpeechVnetSelector.name, '?api-version=2022-01-01')]"  
+                            }  
+                        },
+                        {
+                            "name": "aiSpeechNetworkingRegionOutputInfo",
+                            "type": "Microsoft.Common.InfoBox",
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').aiSpeechDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar'), not(equals(steps('aiAuxiliarySettings').aiSpeechSelectedVnetDetails.location, steps('basics').resourceScope.location.name)), not(equals(steps('basics').aiIntention, 'Multiple')))]",
+                            "options": {
+                                "icon": "warning",
+                                "text": "Note you are creating the Private Endpoint into a different Azure Region then AI Speech. Ensure you have connectivity with the other Azure services you are creating in case their Private Endpoints are in different regions and Virtual Networks"
+                            }
+                        },
+                        {
+                            "name": "aiSpeechauthzSection",
+                            "type": "Microsoft.Common.Section",
+                            "label": "Authorization Settings",
+                            "elements": [],
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar')]"
+                        },
+                        {
+                            "name": "aiSpeechRbacAuthz",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "label": "Enable Azure RBAC authorization",
+                            "defaultValue": "Yes (recommended)",
+                            "toolTip": "",
+                            "constraints": {
+                                "allowedValues": [
+                                    {
+                                        "label": "Yes (recommended)",
+                                        "value": "Yes"
+                                    },
+                                    {
+                                        "label": "No, use local authorization with API key",
+                                        "value": "No"
+                                    }
+                                ],
+                                "required": true
+                            },
+                            "visible": false
+                        },
+                        {
+                            "name": "aiSpeechSystemIdentity",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "label": "Enable Managed Identity (System-assigned) for Azure AI Speech",
+                            "defaultValue": "Yes (recommended)",
+                            "toolTip": "When enabling Managed Identity and usage of Customer-Managed keys, this identity will have RBAC permission access the Azure OpenAI instance.",
+                            "constraints": {
+                                "allowedValues": [
+                                    {
+                                        "label": "Yes (recommended)",
+                                        "value": "Yes"
+                                    },
+                                    {
+                                        "label": "No",
+                                        "value": "No"
+                                    }
+                                ],
+                                "required": true
+                            },
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar')]"
+                        },
+                        {
+                            "name": "aiSpeechMonSection",
+                            "type": "Microsoft.Common.Section",
+                            "label": "Azure Monitor Settings",
+                            "elements": [],
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar')]"
+                        },
+                        {
+                            "name": "aiSpeechMonCreation",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "label": "Enable Diagnostic Settings for logging and threat detection",
+                            "defaultValue": "Yes (recommended)",
+                            "toolTip": "",
+                            "constraints": {
+                                "allowedValues": [
+                                    {
+                                        "label": "Yes (recommended)",
+                                        "value": "Yes"
+                                    },
+                                    {
+                                        "label": "No",
+                                        "value": "No"
+                                    }
+                                ],
+                                "required": true
+                            },
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar')]"
+                        },
+                        {
                             "name": "aiAddServicesSectionVideoIndexer",
                             "type": "Microsoft.Common.Section",
                             "label": "Required services for the selected use case",
@@ -3034,6 +3245,13 @@
                 "visionSystemIdentity": "[steps('aiAuxiliarySettings').aiVisionSystemIdentity]",
                 "visionMonCreation": "[steps('aiAuxiliarySettings').aiVisionMonCreation]",
                 "visionRestrictOutboundNetworkAccess": "[steps('aiAuxiliarySettings').aiVisionRestrictOutboundNetworkAccess]",
+                "speechDisableNetworkAccess": "[steps('aiAuxiliarySettings').aiSpeechDisableNetworkAccess]",
+                "speechRbacAuthz": "[steps('aiAuxiliarySettings').aiSpeechRbacAuthz]",
+                "speechNwLocation": "[steps('aiAuxiliarySettings').aiSpeechSelectedVnetDetails.location]",
+                "speechSubnetId": "[steps('aiAuxiliarySettings').aiSpeechSubnetList]",
+                "speechSystemIdentity": "[steps('aiAuxiliarySettings').aiSpeechSystemIdentity]",
+                "speechMonCreation": "[steps('aiAuxiliarySettings').aiSpeechMonCreation]",
+                "speechRestrictOutboundNetworkAccess": "[steps('aiAuxiliarySettings').aiSpeechRestrictOutboundNetworkAccess]",
                 "aiUseCaseSelection": "[steps('aiAuxiliarySettings').aiUseCaseSelection]",
                 "aiSampleAppDeployment": "[steps('aiAuxiliarySettings').aiSampleAppDeployment]",
                 "aiAppId": "[steps('aiAuxiliarySettings').spnSection.aiServicePrincipal.appId]",
