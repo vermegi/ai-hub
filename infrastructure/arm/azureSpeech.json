@@ -120,7 +120,7 @@
                             "location": "[parameters('location')]",
                             "identity": "[if(equals(parameters('speechSystemIdentity'), 'Yes'), variables('speechIdentity'), json('null'))]",
                             "sku": {
-                                "name": "S1"
+                                "name": "S0"
                             },
                             "kind": "SpeechServices",
                             "properties": {
