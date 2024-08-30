@@ -1607,6 +1607,11 @@
                                         "label": "AI Assistant for videos (Preview)",
                                         "description": "Extract key insights and identify scenes suited for short video clip generation for social media, using Azure Video Indexer and Azure OpenAI Assistant (Preview) APIs",
                                         "value": "video"
+                                    },
+                                    {
+                                        "label": "AI Avatar",
+                                        "description": "Empower your organization to leverage the power of OpenAI models, such as GPT-4, and incorporates text to speech and Avatar API to create a virtual avatar.",
+                                        "value": "avatar"
                                     }
                                 ],
                                 "required": true
