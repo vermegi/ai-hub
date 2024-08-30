@@ -2343,7 +2343,7 @@
                             "visible": "[and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar'), not(equals(steps('basics').aiIntention, 'Multiple')))]"
                         },
                         {
-                            "name": "aispeechRestrictOutboundNetworkAccess",
+                            "name": "aiSpeechRestrictOutboundNetworkAccess",
                             "type": "Microsoft.Common.OptionsGroup",
                             "label": "Restric Outbound Network Access for AI Speech",
                             "defaultValue": "Yes (recommended)",
