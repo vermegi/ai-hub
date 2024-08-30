@@ -1,0 +1,204 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "rgName": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Provide the name of the resource group where the Azure AI Speech instance that will be created"
+            }
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Select the location for the Azure AI Vision instance that will be created"
+            }
+        },
+        "prefix": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Provide name for the Azure AI Speech instance that will be created"
+            }
+        },
+        "speechSubnetId": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Provide the subnet id where the Azure AI Speech instance that will be connected"
+            }
+        },
+        "speechSystemIdentity": {
+            "type": "string",
+            "defaultValue": "No",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "speechNwLocation": {
+            "type": "string",
+            "defaultValue": "[parameters('location')]"
+        },
+        "speechDisableNetworkAccess": {
+            "type": "string",
+            "defaultValue": "No",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "speechRbacAuthz": {
+            "type": "string",
+            "defaultValue": "No",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "speechRestrictOutboundNetworkAccess": {
+            "type": "string",
+            "defaultValue": "No",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "speechMonCreation": {
+            "type": "string",
+            "defaultValue": "No",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        }
+    },
+    "variables": {
+        "name-compliant-azureSpeech": "[concat(parameters('prefix'), '-', parameters('location'), '-aispeech')]",
+        "name-compliant-speech-pe": "[concat(parameters('prefix'), '-', parameters('location'), '-azspeech-pe')]",
+        "name-compliant-speech-asg": "[concat(parameters('prefix'), '-', parameters('location'), '-azspeech-asg')]",
+        "name-compliant-azMon": "[concat(parameters('prefix'), '-', parameters('location'), '-azmon')]",
+        "name-compliant-azureSpeech-nic": "[concat(variables('name-compliant-azureSpeech'), '-nic')]",
+        "speechIdentity": {
+            "type": "SystemAssigned"
+        },
+        "denyFwAcl": {
+            "defaultAction": "Deny",
+            "bypass": "AzureServices",
+            "ipRules": [],
+            "virtualNetworkRules": []
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Resources/resourceGroups",
+            "apiVersion": "2022-09-01",
+            "name": "[parameters('rgName')]",
+            "location": "[parameters('location')]"
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "azureSpeech",
+            "resourceGroup": "[parameters('rgName')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/resourceGroups/', parameters('rgName'))]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "resources": [
+                        {
+                            "type": "Microsoft.CognitiveServices/accounts",
+                            "apiVersion": "2022-03-01",
+                            "name": "[variables('name-compliant-azureSpeech')]",
+                            "location": "[parameters('location')]",
+                            "identity": "[if(equals(parameters('speechSystemIdentity'), 'Yes'), variables('speechIdentity'), json('null'))]",
+                            "sku": {
+                                "name": "S1"
+                            },
+                            "kind": "SpeechServices",
+                            "properties": {
+                                "customSubDomainName": "[toLower(variables('name-compliant-azureSpeech'))]",
+                                "publicNetworkAccess": "[if(equals(parameters('speechDisableNetworkAccess'), 'Yes'), 'Disabled', 'Enabled')]",
+                                "disableLocalAuth": "[if(equals(parameters('speechRbacAuthz'), 'Yes'), bool('true'), bool('false'))]",
+                                "restrictOutboundNetworkAccess": "[if(equals(parameters('speechRestrictOutboundNetworkAccess'), 'Yes'), bool('true'), bool('false'))]",
+                                "networkAcls": "[if(equals(parameters('speechDisableNetworkAccess'), 'Yes'), variables('denyFwAcl'), json('null'))]"
+                            }
+                        },
+                        {
+                            "condition": "[equals(parameters('speechMonCreation'), 'Yes')]",
+                            "type": "Microsoft.CognitiveServices/accounts/providers/diagnosticSettings",
+                            "apiVersion": "2021-05-01-preview",
+                            "name": "[concat(variables('name-compliant-azureSpeech'), '/', 'Microsoft.Insights/diag')]",
+                            "location": "[parameters('location')]",
+                            "dependsOn": [
+                                "[concat('Microsoft.CognitiveServices/accounts/', variables('name-compliant-azureSpeech'))]"
+                            ],
+                            "properties": {
+                                "workspaceId": "[concat(subscription().id, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.OperationalInsights/workspaces/', variables('name-compliant-azMon'))]",
+                                "logs": [
+                                    {
+                                        "categoryGroup": "allLogs",
+                                        "enabled": true
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "condition": "[and(equals(parameters('speechDisableNetworkAccess'), 'Yes'), not(empty(parameters('speechSubnetId'))))]",
+                            "type": "Microsoft.Network/applicationSecurityGroups",
+                            "apiVersion": "2023-04-01",
+                            "name": "[variables('name-compliant-speech-asg')]",
+                            "location": "[parameters('speechNwLocation')]",
+                            "dependsOn": [
+                                "[concat('Microsoft.CognitiveServices/accounts/', variables('name-compliant-azureSpeech'))]"
+                            ],
+                            "properties": {}
+                        },
+                        {
+                            "condition": "[and(equals(parameters('speechDisableNetworkAccess'), 'Yes'), not(empty(parameters('speechSubnetId'))))]",
+                            "type": "Microsoft.Network/privateEndpoints",
+                            "apiVersion": "2021-05-01",
+                            "name": "[variables('name-compliant-speech-pe')]",
+                            "location": "[parameters('speechNwLocation')]",
+                            "dependsOn": [
+                                "[concat('Microsoft.CognitiveServices/accounts/', variables('name-compliant-azureSpeech'))]",
+                                "[concat('Microsoft.Network/applicationSecurityGroups/', variables('name-compliant-speech-asg'))]"
+                            ],
+                            "properties": {
+                                "customNetworkInterfaceName": "[variables('name-compliant-azureSpeech-nic')]",
+                                "privateLinkServiceConnections": [
+                                    {
+                                        
+                                        "name": "[variables('name-compliant-azureSpeech')]",
+                                        "properties": {
+                                            "privateLinkServiceId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.CognitiveServices/accounts/', variables('name-compliant-azureSpeech'))]",
+                                            "groupIds": [
+                                                "account"
+                                            ]
+                                        }
+                                    }
+                                ],
+                                "subnet": {
+                                    "id": "[parameters('speechSubnetId')]"
+                                },
+                                "applicationSecurityGroups": [
+                                    {
+                                        "id": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.Network/applicationSecurityGroups/', variables('name-compliant-speech-asg'))]"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "outputs": {}
+}
