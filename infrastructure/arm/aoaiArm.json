@@ -716,7 +716,7 @@
             "azureOpenAiContentFilterTemplateUri": "[uri(deployment().properties.templateLink.uri, 'contentFilter.json')]",
             "azureAiSearchTemplateUri": "[uri(deployment().properties.templateLink.uri, 'azureAiSearch.json')]",
             "azureComputerVisionTemplateUri": "[uri(deployment().properties.templateLink.uri, 'azureComputerVision.json')]",
-            "azureComputerSpeechTemplateUri": "[uri(deployment().properties.templateLink.uri, 'azureSpeech.json')]",
+            "azureSpeechTemplateUri": "[uri(deployment().properties.templateLink.uri, 'azureSpeech.json')]",
             "azureDocumentIntelligenceTemplateUri": "[uri(deployment().properties.templateLink.uri, 'azureDocumentIntelligence.json')]",
             "azureApimTemplateUri": "[uri(deployment().properties.templateLink.uri, 'apimPublic.json')]",
             "aiSampleAppTemplateUri": "[uri(deployment().properties.templateLink.uri, 'aiSampleApp.json')]",
