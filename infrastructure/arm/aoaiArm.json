@@ -3040,7 +3040,7 @@
         },
                 // Deploying Azure Container Apps Environment into the primary region if 'ecomm' use case and 'Poc' is being selected or if 'Avatar' use case is being selected
                 {
-                    "condition": "[and(equals(parameters('aiUseCaseSelection'), 'ecomm'), equals(parameters('aiDeployOption'), 'PoC'))]",
+                    "condition": "[or(and(equals(parameters('aiUseCaseSelection'), 'ecomm'), equals(parameters('aiDeployOption'), 'PoC')), equals(parameters('aiUseCaseSelection'), 'avatar'))]",
                     "type": "Microsoft.Resources/deployments",
                     "apiVersion": "2022-09-01",
                     "name": "[variables('deploymentNames').acaevDeploymentName]",
@@ -3092,7 +3092,7 @@
 
                 // Deploying Azure Container Apps into the primary region if 'ecomm' or 'avatar' use case is being selected
                 {
-                    "condition": "[and(equals(parameters('aiUseCaseSelection'), 'ecomm'), equals(parameters('aiDeployOption'), 'PoC'))]",
+                    "condition": "[or(and(equals(parameters('aiUseCaseSelection'), 'ecomm'), equals(parameters('aiDeployOption'), 'PoC')), equals(parameters('aiUseCaseSelection'), 'avatar'))]",
                     "type": "Microsoft.Resources/deployments",
                     "apiVersion": "2022-09-01",
                     "name": "[variables('deploymentNames').containerAppDeploymentName]",
