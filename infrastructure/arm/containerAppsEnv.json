@@ -72,7 +72,11 @@
         "name-compliant-aca": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), uniqueString(deployment().name)), 23))]",
         "name-compliant-azMon": "[concat(parameters('prefix'), '-', parameters('location'), '-azmon')]",
         "name-compliant-acame": "[take(concat(parameters('prefix'), '-', parameters('location'), '-acame'), 23)]",
-        "logAnalyticsWorkspaceId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.OperationalInsights/workspaces/', variables('name-compliant-azMon'))]"
+        "logAnalyticsWorkspaceId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.OperationalInsights/workspaces/', variables('name-compliant-azMon'))]",
+        "vnetConfig": {
+            "internal": false,
+            "infrastructureSubnetId": "[parameters('acaSubnetId')]"
+        }
     },
     "resources": [
         {
@@ -116,10 +120,7 @@
                                         "workloadProfileType": "Consumption"
                                     }
                                 ],
-                                // "vnetConfiguration": {
-                                //     "internal": false,
-                                //     "infrastructureSubnetId": "[parameters('acaSubnetId')]"
-                                // },
+                                "vnetConfiguration": "[if(equals(parameters('acaDisableNetworkAccess'), 'Yes'), variables('vnetConfig'), json('null'))]",
                                 "zoneRedundant": "[parameters('acaZone')]"
                             }
                         }
