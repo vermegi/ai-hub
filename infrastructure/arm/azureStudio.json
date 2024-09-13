@@ -124,8 +124,6 @@
                             "name": "[variables('name-compliant-azureStudio')]",
                             "location": "[parameters('location')]",
                             "dependsOn": [
-                                "[concat('Microsoft.KeyVault/vaults/', variables('name-compliant-keyvault'))]",
-                                "[concat('Microsoft.Storage/storageAccounts/', variables('name-compliant-storage'))]",
                                 "[concat('Microsoft.ContainerRegistry/registries/', variables('name-compliant-containerRegistry'))]"
                             ],
                             "identity": "[if(equals(parameters('studioSystemIdentity'), 'Yes'), variables('studioIdentity'), json('null'))]",
