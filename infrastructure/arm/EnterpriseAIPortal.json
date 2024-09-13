@@ -3534,7 +3534,7 @@
                                 ],
                                 "required": true
                             },
-                            "visible": "[or(and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'),equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiDeployOption, 'Production')) , not(equals(steps('basics').aiIntention, 'Multiple'))), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar'))]"
+                            "visible": "[or(and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'),equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiDeployOption, 'Production')) , not(equals(steps('basics').aiIntention, 'Multiple'))), and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar')))]"
                         },
                         {
                             "name": "acaMonSection",
