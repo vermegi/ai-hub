@@ -1,0 +1,265 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "rgName": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Provide the name of the resource group where the Azure AI Speech instance that will be created"
+            }
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Select the location for the Azure AI Vision instance that will be created"
+            }
+        },
+        "prefix": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Provide name for the Azure AI Speech instance that will be created"
+            }
+        },
+        "studioSubnetId": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Provide the subnet id where the Azure AI Speech instance that will be connected"
+            }
+        },
+        "studioSystemIdentity": {
+            "type": "string",
+            "defaultValue": "No",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "studioNwLocation": {
+            "type": "string",
+            "defaultValue": "[parameters('location')]"
+        },
+        "studioDisableNetworkAccess": {
+            "type": "string",
+            "defaultValue": "No",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "studioRbacAuthz": {
+            "type": "string",
+            "defaultValue": "No",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "studioRestrictOutboundNetworkAccess": {
+            "type": "string",
+            "defaultValue": "No",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "studioMonCreation": {
+            "type": "string",
+            "defaultValue": "No",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        }
+    },
+    "variables": {
+        "name-compliant-azureStudio": "[concat(parameters('prefix'), '-', parameters('location'), '-aistudio')]",
+        "name-compliant-studio-pe": "[concat(parameters('prefix'), '-', parameters('location'), '-azstudio-pe')]",
+        "name-compliant-studio-asg": "[concat(parameters('prefix'), '-', parameters('location'), '-azstudio-asg')]",
+        "name-compliant-azMon": "[concat(parameters('prefix'), '-', parameters('location'), '-azmon')]",
+        "name-compliant-azureStudio-nic": "[concat(variables('name-compliant-azureStudio'), '-nic')]",
+        "name-compliant-keyvault": "[take(concat(parameters('prefix'), '-', parameters('location'), '-kv'), 23)]",
+        "name-compliant-storage": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), uniqueString(deployment().name)), 23))]",
+        "name-compliant-containerRegistry": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), '-acr', uniqueString(deployment().name)), 23))]",
+        "studioIdentity": {
+            "type": "SystemAssigned"
+        },
+        "denyFwAcl": {
+            "defaultAction": "Deny",
+            "bypass": "AzureServices",
+            "ipRules": [],
+            "virtualNetworkRules": []
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Resources/resourceGroups",
+            "apiVersion": "2022-09-01",
+            "name": "[parameters('rgName')]",
+            "location": "[parameters('location')]"
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "azureStudio",
+            "resourceGroup": "[parameters('rgName')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/resourceGroups/', parameters('rgName'))]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "resources": [
+
+                        {
+                            "type": "Microsoft.MachineLearningServices/workspaces",
+                            "apiVersion": "2024-07-01-preview",
+                            "name": "[variables('name-compliant-azureStudio')]",
+                            "location": "[parameters('location')]",
+                            "dependsOn": [
+                                // "[concat('Microsoft.KeyVault/vaults/', variables('name-compliant-keyvault'))]",
+                                // "[concat('Microsoft.Storage/storageAccounts/', variables('name-compliant-storage'))]",
+                                "[concat('Microsoft.ContainerRegistry/registries/', variables('name-compliant-containerRegistry'))]"
+                            ],
+                            "identity": "[if(equals(parameters('studioSystemIdentity'), 'Yes'), variables('studioIdentity'), json('null'))]",
+                            "properties": {
+                              "friendlyName": "[variables('name-compliant-azureStudio')]",
+                              "keyVault": "[concat(subscription().id, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.KeyVault/vaults/', variables('name-compliant-keyvault'))]",
+                              "storageAccount": "[concat(subscription().id, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.Storage/storageAccounts/', variables('name-compliant-storage'))]",
+                              "containerRegistry": "[resourceId('Microsoft.ContainerRegistry/registries', variables('name-compliant-containerRegistry'))]",
+                              "publicNetworkAccess": "Disabled",
+                              "managedNetwork": {
+                                "isolationMode": "AllowInternetOutBound"
+                              }
+                            },
+                            "kind": "hub"
+                          },
+                          {
+                            "condition": "[and(equals(parameters('studioDisableNetworkAccess'), 'Yes'), not(empty(parameters('studioSubnetId'))))]",
+                            "type": "Microsoft.Network/applicationSecurityGroups",
+                            "apiVersion": "2023-04-01",
+                            "name": "[variables('name-compliant-studio-asg')]",
+                            "location": "[parameters('studioNwLocation')]",
+                            "dependsOn": [
+                                "[concat('Microsoft.MachineLearningServices/workspaces/', variables('name-compliant-azureStudio'))]"
+                            ],
+                            "properties": {}
+                        },
+                        {
+                            "condition": "[and(equals(parameters('studioDisableNetworkAccess'), 'Yes'), not(empty(parameters('studioSubnetId'))))]",
+                            "type": "Microsoft.Network/privateEndpoints",
+                            "apiVersion": "2021-05-01",
+                            "name": "[variables('name-compliant-studio-pe')]",
+                            "location": "[parameters('studioNwLocation')]",
+                            "dependsOn": [
+                                "[concat('Microsoft.MachineLearningServices/workspaces/', variables('name-compliant-azureStudio'))]",
+                                "[concat('Microsoft.Network/applicationSecurityGroups/', variables('name-compliant-studio-asg'))]"
+                            ],
+                            "properties": {
+                                "customNetworkInterfaceName": "[variables('name-compliant-azureStudio-nic')]",
+                                "privateLinkServiceConnections": [
+                                    {
+                                        "name": "[variables('name-compliant-azureStudio')]",
+                                        "properties": {
+                                            "privateLinkServiceId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.MachineLearningServices/workspaces/', variables('name-compliant-azureStudio'))]",
+                                            "groupIds": [
+                                                "amlworkspace"
+                                            ]
+                                        }
+                                    }
+                                ],
+                                "subnet": {
+                                    "id": "[parameters('azureStudioSubnetId')]"
+                                },
+                                "applicationSecurityGroups": [
+                                    {
+                                        "id": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.Network/applicationSecurityGroups/', variables('name-compliant-studio-asg'))]"
+                                    }
+                                ]
+                            }
+                       },
+                       {
+                       "type": "Microsoft.ContainerRegistry/registries",
+                       "apiVersion": "2023-07-01",
+                       "name": "[variables('name-compliant-containerRegistry')]",
+                       "location": "[parameters('location')]",
+                       "sku": {
+                           "name": "Premium"
+                       },
+                       "properties": {
+                           "adminUserEnabled": false,
+                           "dataEndpointEnabled": false,
+                           "networkRuleBypassOptions": "AzureServices",
+                           "networkRuleSet": {
+                           "defaultAction": "Deny"
+                           },
+                           "policies": {
+                           "quarantinePolicy": {
+                               "status": "disabled"
+                           },
+                           "retentionPolicy": {
+                               "status": "enabled",
+                               "days": 7
+                           },
+                           "trustPolicy": {
+                               "status": "enabled",
+                               "type": "Notary"
+                           }
+                           },
+                           "publicNetworkAccess": "Disabled",
+                           "zoneRedundancy": "Disabled"
+                          }
+                       },
+                       {
+                        "condition": "[equals(parameters('studioMonCreation'), 'Yes')]",
+                        "type": "Microsoft.MachineLearningServices/workspaces/providers/diagnosticSettings",
+                        "apiVersion": "2021-05-01-preview",
+                        "name": "[concat(variables('name-compliant-azureStudio'), '/', 'Microsoft.Insights/diag')]",
+                        "location": "[parameters('location')]",
+                        "dependsOn": [
+                            "[concat('Microsoft.MachineLearningServices/workspaces/', variables('name-compliant-azureStudio'))]"
+                        ],
+                        "properties": {
+                            "workspaceId": "[concat(subscription().id, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.OperationalInsights/workspaces/', variables('name-compliant-azMon'))]",
+                            "logs": [
+                                {
+                                    "categoryGroup": "allLogs",
+                                    "enabled": true
+                                }
+                            ]
+                        }
+                       },
+                       {
+                        "type": "Microsoft.MachineLearningServices/workspaces/connections",
+                        "apiVersion": "2024-01-01-preview",
+                        "name": "[format('{0}/{1}', variables('name-compliant-azureStudio'), format('{0}-connection-AIServices', variables('name-compliant-azureStudio')))]",
+                        "properties": {
+                          "category": "AzureOpenAI",
+                          "target": "[variables('name-compliant-azureOpenAi')]",
+                          "authType": "ApiKey",
+                          "isSharedToAll": true,
+                          "credentials": {
+                            "key": "[format('{0}', listKeys(concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.CognitiveServices/accounts/', variables('name-compliant-azureOpenAi')), '2021-10-01').key1)]"
+                          },
+                          "metadata": {
+                            "ApiType": "Azure",
+                            "ResourceId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.CognitiveServices/accounts/', variables('name-compliant-azureOpenAi'))]"
+                          }
+                        },
+                        "dependsOn": [
+                          "[resourceId('Microsoft.MachineLearningServices/workspaces', variables('name-compliant-azureStudio'))]"
+                        ]
+                      }                                                
+                    ]
+                }
+            }
+        }
+    ],
+    "outputs": {}
+}

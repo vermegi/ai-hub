@@ -504,6 +504,54 @@
                 "No"
             ]
         },
+        "studioRbacAuthz": {
+            "type": "string",
+            "defaultValue": "No",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "studioSubnetId": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "studioDisableNetworkAccess": {
+            "type": "string",
+            "defaultValue": "No",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "studioNwLocation": {
+            "type": "string",
+            "defaultValue": "[parameters('location')]"
+        },
+        "studioSystemIdentity": {
+            "type": "string",
+            "defaultValue": "No",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "studioRestrictOutboundNetworkAccess": {
+            "type": "string",
+            "defaultValue": "No",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "studioMonCreation": {
+            "type": "string",
+            "defaultValue": "No",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
         "docDisableNetworkAccess": {
             "type": "string",
             "defaultValue": "No",
@@ -717,6 +765,7 @@
             "azureAiSearchTemplateUri": "[uri(deployment().properties.templateLink.uri, 'azureAiSearch.json')]",
             "azureComputerVisionTemplateUri": "[uri(deployment().properties.templateLink.uri, 'azureComputerVision.json')]",
             "azureSpeechTemplateUri": "[uri(deployment().properties.templateLink.uri, 'azureSpeech.json')]",
+            "azureStudioTemplateUri": "[uri(deployment().properties.templateLink.uri, 'azureStudio.json')]",
             "azureDocumentIntelligenceTemplateUri": "[uri(deployment().properties.templateLink.uri, 'azureDocumentIntelligence.json')]",
             "azureApimTemplateUri": "[uri(deployment().properties.templateLink.uri, 'apimPublic.json')]",
             "aiSampleAppTemplateUri": "[uri(deployment().properties.templateLink.uri, 'aiSampleApp.json')]",
@@ -775,6 +824,7 @@
             "azureAiSearchDeploymentName": "[take(concat(parameters('prefix'), '-aaisearch-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azureComputerVisionDeploymentName": "[take(concat(parameters('prefix'), '-aicomputervision-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azureSpeechDeploymentName": "[take(concat(parameters('prefix'), '-aispeech-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "azureStudioDeploymentName": "[take(concat(parameters('prefix'), '-aistudio-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azureDocumentIntelligenceDeploymentName": "[take(concat(parameters('prefix'), '-aidocumentintelligence-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "apimDeploymentName": "[take(concat(parameters('prefix'), '-apim-', parameters('apimLocation'), variables('deploymentSuffix')), 64)]",
             "aiSampleAppDeploymentName": "[take(concat(parameters('prefix'), '-aiSampleApp-', parameters('location'), variables('deploymentSuffix')), 64)]",
@@ -1080,6 +1130,27 @@
                     },
                     "speechMonCreation": {
                         "value": "[parameters('speechMonCreation')]"
+                    },
+                    "studioRbacAuthz": {
+                        "value": "[parameters('studioRbacAuthz')]"
+                    },
+                    "studioSubnetId": {
+                        "value": "[parameters('studioSubnetId')]"
+                    },
+                    "studioDisableNetworkAccess": {
+                        "value": "[parameters('studioDisableNetworkAccess')]"
+                    },
+                    "studioNwLocation": {
+                        "value": "[parameters('studioNwLocation')]"
+                    },
+                    "studioSystemIdentity": {
+                        "value": "[parameters('studioSystemIdentity')]"
+                    },
+                    "studioRestrictOutboundNetworkAccess": {
+                        "value": "[parameters('studioRestrictOutboundNetworkAccess')]"
+                    },
+                    "studioMonCreation": {
+                        "value": "[parameters('studioMonCreation')]"
                     },
                     "docDisableNetworkAccess": {
                         "value": "[parameters('docDisableNetworkAccess')]"
@@ -1663,6 +1734,59 @@
                     },
                     "speechMonCreation": {
                         "value": "[parameters('speechMonCreation')]"
+                    }
+                }
+            }
+        },
+        // Deploying AI Studio into primary region
+        {
+            "condition": "[equals(parameters('aiUseCaseSelection'), 'avatar')]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('deploymentNames').azureStudioDeploymentName]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').keyVaultDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').storageDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureOpenAiDeploymentName)]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('templateUris').azureStudioTemplateUri]"
+                },
+                "parameters": {
+                    "rgName": {
+                        "value": "[variables('resourceNames').rgName]"
+                    },
+                    "location": {
+                        "value": "[parameters('location')]"
+                    },
+                    "studioRbacAuthz": {
+                        "value": "[parameters('studioRbacAuthz')]"
+                    },
+                    "studioSubnetId": {
+                        "value": "[parameters('studioSubnetId')]"
+                    },
+                    "prefix": {
+                        "value": "[parameters('prefix')]"
+                    },
+                    "studioNwLocation": {
+                        "value": "[parameters('studioNwLocation')]"
+                    },
+                    "studioDisableNetworkAccess": {
+                        "value": "[parameters('studioDisableNetworkAccess')]"
+                    },
+                    "studioSystemIdentity": {
+                        "value": "[parameters('studioSystemIdentity')]"
+                    },
+                    "studioRestrictOutboundNetworkAccess": {
+                        "value": "[parameters('studioRestrictOutboundNetworkAccess')]"
+                    },
+                    "studioMonCreation": {
+                        "value": "[parameters('studioMonCreation')]"
                     }
                 }
             }
