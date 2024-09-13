@@ -176,7 +176,7 @@
                                     }
                                 ],
                                 "subnet": {
-                                    "id": "[parameters('azureStudioSubnetId')]"
+                                    "id": "[parameters('studioSubnetId')]"
                                 },
                                 "applicationSecurityGroups": [
                                     {
