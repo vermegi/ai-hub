@@ -812,7 +812,7 @@
             "videoIndexerTemplateUri": "[uri(deployment().properties.templateLink.uri, 'azureVideoIndexer.json')]",
             "adfOnYourDataTemplateUri": "[uri(deployment().properties.templateLink.uri, 'adfOnYourData.json')]",
             "rgCosmosRbacTemplateUri": "[uri(deployment().properties.templateLink.uri, 'rgCosmosRbac.json')]",
-            "acaTemplateUri": "[uri(deployment().properties.templateLink.uri, 'containerAppsenv.json')]",
+            "acaTemplateUri": "[uri(deployment().properties.templateLink.uri, 'containerAppsEnv.json')]",
             "containerAppTemplateUri": "[uri(deployment().properties.templateLink.uri, 'containerApps.json')]"
         },
         "deploymentSuffix": "[concat('-', guid(parameters('prefix')))]",
