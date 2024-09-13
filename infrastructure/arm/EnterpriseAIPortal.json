@@ -3426,12 +3426,12 @@
                                 ],
                                 "required": true
                             },
-                            "visible": "[or(and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiDeployOption, 'Production')), not(equals(steps('basics').aiIntention, 'Multiple'))), , equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar'))]"
+                            "visible": "[or(and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiDeployOption, 'Production')), not(equals(steps('basics').aiIntention, 'Multiple'))), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar'))]"
                         },
                         {
                             "name": "acaNetworkingInfo",
                             "type": "Microsoft.Common.InfoBox",
-                            "visible": "[or(and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'),not(equals(steps('basics').aiDeployOption, 'Production')), not(equals(steps('basics').aiIntention, 'Multiple'))), and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar')))]",
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar'))]",
                             "options": {
                                 "icon": "warning",
                                 "text": "The VNet and subnet you select can be in a different Azure region then the Private Endpoint for Data Factory. Ensure you have connectivity to the other services you are creating."
@@ -3448,7 +3448,7 @@
 									"location": "all"
 								}
 							},
-                            "visible": "[or(and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'),not(equals(steps('basics').aiDeployOption, 'Production')), not(equals(steps('basics').aiIntention, 'Multiple'))), and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar')))]"
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar'))]"
 						},
 						{
 							"name": "acaSubnets",
@@ -3467,7 +3467,7 @@
 								"allowedValues": "[map(steps('aiAuxiliarySettings').acaSubnets.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.id, '\"}')))]",
 								"required": true
 							},
-                            "visible": "[or(and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'),not(equals(steps('basics').aiDeployOption, 'Production')), not(equals(steps('basics').aiIntention, 'Multiple'))), and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar')))]"
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar'))]"
 						},
                         {  
                             "name": "acaSelectedVnetDetails",  
@@ -3480,7 +3480,7 @@
                         {
                             "name": "acaNetworkingRegionOutputInfo",
                             "type": "Microsoft.Common.InfoBox",
-                            "visible": "[or(and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('aiAuxiliarySettings').acaSelectedVnetDetails.location, steps('basics').resourceScope.location.name)),not(equals(steps('basics').aiDeployOption, 'Production')) ,not(equals(steps('basics').aiIntention, 'Multiple'))), and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar')))]",
+                            "visible": "[and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('aiAuxiliarySettings').acaSelectedVnetDetails.location, steps('basics').resourceScope.location.name)),not(equals(steps('basics').aiDeployOption, 'Production')) ,not(equals(steps('basics').aiIntention, 'Multiple')))]",
                             "options": {
                                 "icon": "warning",
                                 "text": "Note you are creating the Private Endpoint into a different Azure Region then Data Factory. Ensure you have connectivity with the other Azure services you are creating in case their Private Endpoints are in different regions and Virtual Networks"
