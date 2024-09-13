@@ -120,8 +120,8 @@
                                         "workloadProfileType": "Consumption"
                                     }
                                 ],
-                                "vnetConfiguration": "[if(equals(parameters('acaDisableNetworkAccess'), 'Yes'), variables('vnetConfig'), json('null'))]",
-                                "zoneRedundant": "[parameters('acaZone')]"
+                                //"vnetConfiguration": "[if(equals(parameters('acaDisableNetworkAccess'), 'Yes'), variables('vnetConfig'), json('null'))]",
+                                "zoneRedundant": "false"
                             }
                         }
                     ]

@@ -3676,7 +3676,7 @@
                 "acaNwLocation": "[steps('aiAuxiliarySettings').acaSelectedVnetDetails.location]",
                 "acaSubnetId": "[steps('aiAuxiliarySettings').acaSubnetList]",
                 "acaSystemIdentity": "[steps('aiAuxiliarySettings').acaSystemIdentity]",
-                "acaZone": "[if(and(steps('aiAuxiliarySettings').acaZone, steps('aiAuxiliarySettings').acaDisableNetworkAccess), 'true', 'false')]",
+                "acaZone": "[steps('aiAuxiliarySettings').acaZone]",
                 "acaMonCreation": "[steps('aiAuxiliarySettings').acaMonCreation]"                
             },
             "kind": "Subscription",
