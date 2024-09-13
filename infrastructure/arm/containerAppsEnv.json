@@ -116,10 +116,10 @@
                                         "workloadProfileType": "Consumption"
                                     }
                                 ],
-                                "vnetConfiguration": {
-                                    "internal": false,
-                                    "infrastructureSubnetId": "[parameters('acaSubnetId')]"
-                                },
+                                // "vnetConfiguration": {
+                                //     "internal": false,
+                                //     "infrastructureSubnetId": "[parameters('acaSubnetId')]"
+                                // },
                                 "zoneRedundant": "[parameters('acaZone')]"
                             }
                         }
