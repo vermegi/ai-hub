@@ -3392,6 +3392,178 @@
                                 "required": true
                             },
                             "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata')]"
+                        },
+                        {
+                            "name": "acaSection",
+                            "type": "Microsoft.Common.Section",
+                            "label": "Azure Container Apps",
+                            "elements": [],
+                            "visible": "[or(and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiDeployOption, 'Production')), not(equals(steps('basics').aiIntention, 'Multiple'))), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar'))]"
+                        },
+                        {
+                            "name": "acaNetworkSection",
+                            "type": "Microsoft.Common.Section",
+                            "label": "Network Settings",
+                            "elements": [],
+                            "visible": "[or(and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiDeployOption, 'Production')), not(equals(steps('basics').aiIntention, 'Multiple'))), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar'))]"
+                        },
+                        {
+                            "name": "acaDisableNetworkAccess",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "label": "Disable Public Network Access",
+                            "defaultValue": "Yes (recommended)",
+                            "toolTip": "",
+                            "constraints": {
+                                "allowedValues": [
+                                    {
+                                        "label": "Yes (recommended)",
+                                        "value": "Yes"
+                                    },
+                                    {
+                                        "label": "No",
+                                        "value": "No"
+                                    }
+                                ],
+                                "required": true
+                            },
+                            "visible": "[or(and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiDeployOption, 'Production')), not(equals(steps('basics').aiIntention, 'Multiple'))), , equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar'))]"
+                        },
+                        {
+                            "name": "acaNetworkingInfo",
+                            "type": "Microsoft.Common.InfoBox",
+                            "visible": "[or(and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'),not(equals(steps('basics').aiDeployOption, 'Production')), not(equals(steps('basics').aiIntention, 'Multiple'))), and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar')))]",
+                            "options": {
+                                "icon": "warning",
+                                "text": "The VNet and subnet you select can be in a different Azure region then the Private Endpoint for Data Factory. Ensure you have connectivity to the other services you are creating."
+                            }
+                        },
+                        {
+							"name": "acaVnetSelector",
+							"type": "Microsoft.Solutions.ResourceSelector",
+							"label": "Select an existing Virtual Network",
+							"resourceType": "Microsoft.Network/virtualNetworks",
+							"options": {
+								"filter": {
+									"subscription": "onBasics",
+									"location": "all"
+								}
+							},
+                            "visible": "[or(and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'),not(equals(steps('basics').aiDeployOption, 'Production')), not(equals(steps('basics').aiIntention, 'Multiple'))), and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar')))]"
+						},
+						{
+							"name": "acaSubnets",
+							"type": "Microsoft.Solutions.ArmApiControl",
+							"request": {
+								"method": "GET",
+								"path": "[concat(steps('basics').resourceScope.subscription.id, '/resourceGroups/', last(take(split(steps('aiAuxiliarySettings').acaVnetSelector.id, '/'), 5)), '/providers/Microsoft.Network/virtualNetworks/', steps('aiAuxiliarySettings').acaVnetSelector.name,'/subnets?api-version=2022-01-01')]"
+							}
+						},
+						{
+							"name": "acaSubnetList",
+							"type": "Microsoft.Common.DropDown",
+							"label": "Select an existing Subnet",
+							"filter": true,
+							"constraints": {
+								"allowedValues": "[map(steps('aiAuxiliarySettings').acaSubnets.value, (item) => parse(concat('{\"label\":\"', item.name, '\",\"value\":\"', item.id, '\"}')))]",
+								"required": true
+							},
+                            "visible": "[or(and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'),not(equals(steps('basics').aiDeployOption, 'Production')), not(equals(steps('basics').aiIntention, 'Multiple'))), and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar')))]"
+						},
+                        {  
+                            "name": "acaSelectedVnetDetails",  
+                            "type": "Microsoft.Solutions.ArmApiControl",  
+                            "request": {  
+                                "method": "GET",  
+                                "path": "[concat(steps('basics').resourceScope.subscription.id, '/resourceGroups/', last(take(split(steps('aiAuxiliarySettings').acaVnetSelector.id, '/'), 5)), '/providers/Microsoft.Network/virtualNetworks/', steps('aiAuxiliarySettings').acaVnetSelector.name, '?api-version=2022-01-01')]"  
+                            }  
+                        },
+                        {
+                            "name": "acaNetworkingRegionOutputInfo",
+                            "type": "Microsoft.Common.InfoBox",
+                            "visible": "[or(and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('aiAuxiliarySettings').acaSelectedVnetDetails.location, steps('basics').resourceScope.location.name)),not(equals(steps('basics').aiDeployOption, 'Production')) ,not(equals(steps('basics').aiIntention, 'Multiple'))), and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar')))]",
+                            "options": {
+                                "icon": "warning",
+                                "text": "Note you are creating the Private Endpoint into a different Azure Region then Data Factory. Ensure you have connectivity with the other Azure services you are creating in case their Private Endpoints are in different regions and Virtual Networks"
+                            }
+                        },
+                        {
+                            "name": "acaAuthzSection",
+                            "type": "Microsoft.Common.Section",
+                            "label": "Authorization Settings",
+                            "elements": [],
+                            "visible": "[or(and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'),not(equals(steps('basics').aiDeployOption, 'Production')), not(equals(steps('basics').aiIntention, 'Multiple'))), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar'))]"
+                        },
+                        {
+                            "name": "acaSystemIdentity",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "label": "Enable Managed Identity (System-assigned) for Container Apps",
+                            "defaultValue": "Yes (recommended)",
+                            "toolTip": "When enabling Managed Identity, this identity will have RBAC permission access the Azure OpenAI instance.",
+                            "constraints": {
+                                "allowedValues": [
+                                    {
+                                        "label": "Yes (recommended)",
+                                        "value": "Yes"
+                                    },
+                                    {
+                                        "label": "No",
+                                        "value": "No"
+                                    }
+                                ],
+                                "required": true
+                            },
+                            "visible": "[or(and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'),not(equals(steps('basics').aiDeployOption, 'Production')),not(equals(steps('basics').aiIntention, 'Multiple'))), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar'))]"
+                        },
+
+                        {
+                            "name": "acaZone",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "label": "Enable Zone redundancy deployment for Container Apps",
+                            "defaultValue": "Enable (recommended)",
+                            "toolTip": "When enabled Azure Container Apps will be deployed across availability zone.",
+                            "constraints": {
+                                "allowedValues": [
+                                    {
+                                        "label": "Enable (recommended)",
+                                        "value": "true"
+                                    },
+                                    {
+                                        "label": "Disable",
+                                        "value": "false"
+                                    }
+                                ],
+                                "required": true
+                            },
+                            "visible": "[or(and(equals(steps('aiAuxiliarySettings').acaDisableNetworkAccess, 'Yes'),equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'), not(equals(steps('basics').aiDeployOption, 'Production')) , not(equals(steps('basics').aiIntention, 'Multiple'))), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar'))]"
+                        },
+                        {
+                            "name": "acaMonSection",
+                            "type": "Microsoft.Common.Section",
+                            "label": "Azure Monitor Settings",
+                            "elements": [],
+                            "visible": "[or(and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'),not(equals(steps('basics').aiDeployOption, 'Production')), not(equals(steps('basics').aiIntention, 'Multiple'))), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar'))]"
+                        },
+                        {
+                            "name": "acaMonCreation",
+                            "type": "Microsoft.Common.OptionsGroup",
+                            "label": "Enable Diagnostic Settings for logging and threat detection",
+                            "defaultValue": "Yes (recommended)",
+                            "toolTip": "",
+                            "constraints": {
+                                "allowedValues": [
+                                    {
+                                        "label": "Yes (recommended)",
+                                        "value": "Yes"
+                                    },
+                                    {
+                                        "label": "No",
+                                        "value": "No"
+                                    }
+                                ],
+                                "required": true
+                            },
+                            "visible": "[or(and(equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'ecomm'),not(equals(steps('basics').aiDeployOption, 'Production')), not(equals(steps('basics').aiIntention, 'Multiple'))), equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'avatar'))]"
+                            
                         }
                     ]
                 }
@@ -3499,7 +3671,13 @@
                 "dfSystemIdentity": "[steps('aiAuxiliarySettings').dfSystemIdentity]",
                 "dfMonCreation": "[steps('aiAuxiliarySettings').dfMonCreation]",
                 "videoSystemIdentity": "[steps('aiAuxiliarySettings').aiVideoIndexerSystemIdentity]",
-                "videoMonCreation": "[steps('aiAuxiliarySettings').aiVideoIndexerMonCreation]"
+                "videoMonCreation": "[steps('aiAuxiliarySettings').aiVideoIndexerMonCreation]",
+                "acaDisableNetworkAccess": "[steps('aiAuxiliarySettings').acaDisableNetworkAccess]",
+                "acaNwLocation": "[steps('aiAuxiliarySettings').acaSelectedVnetDetails.location]",
+                "acaSubnetId": "[steps('aiAuxiliarySettings').acaSubnetList]",
+                "acaSystemIdentity": "[steps('aiAuxiliarySettings').acaSystemIdentity]",
+                "acaZone": "[steps('aiAuxiliarySettings').acaZone]",
+                "acaMonCreation": "[steps('aiAuxiliarySettings').acaMonCreation]"                
             },
             "kind": "Subscription",
             "location": "[steps('basics').resourceScope.location.name]",
