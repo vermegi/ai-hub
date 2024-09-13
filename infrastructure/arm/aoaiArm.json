@@ -811,7 +811,9 @@
             "cosmosDbTemplateUri": "[uri(deployment().properties.templateLink.uri, 'cosmosDb.json')]",
             "videoIndexerTemplateUri": "[uri(deployment().properties.templateLink.uri, 'azureVideoIndexer.json')]",
             "adfOnYourDataTemplateUri": "[uri(deployment().properties.templateLink.uri, 'adfOnYourData.json')]",
-            "rgCosmosRbacTemplateUri": "[uri(deployment().properties.templateLink.uri, 'rgCosmosRbac.json')]"
+            "rgCosmosRbacTemplateUri": "[uri(deployment().properties.templateLink.uri, 'rgCosmosRbac.json')]",
+            "acaTemplateUri": "[uri(deployment().properties.templateLink.uri, 'containerAppsenv.json')]",
+            "containerAppTemplateUri": "[uri(deployment().properties.templateLink.uri, 'containerApps.json')]"
         },
         "deploymentSuffix": "[concat('-', guid(parameters('prefix')))]",
         "deploymentNames": {
