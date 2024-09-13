@@ -83,7 +83,7 @@
         "name-compliant-azureStudio-nic": "[concat(variables('name-compliant-azureStudio'), '-nic')]",
         "name-compliant-keyvault": "[take(concat(parameters('prefix'), '-', parameters('location'), '-kv'), 23)]",
         "name-compliant-storage": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), uniqueString(deployment().name)), 23))]",
-        "name-compliant-containerRegistry": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), '-acr', uniqueString(deployment().name)), 23))]",
+        "name-compliant-containerRegistry": "[replace(toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), '-acr', uniqueString(deployment().name)), 23)), '-', '')]",
         "name-compliant-azureOpenAi": "[concat(parameters('prefix'), '-', parameters('location'), '-azopenai')]",
         "studioIdentity": {
             "type": "SystemAssigned"
