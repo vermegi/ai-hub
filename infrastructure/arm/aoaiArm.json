@@ -745,6 +745,45 @@
         "docLocation": {
             "type": "string",
             "defaultValue": "[parameters('location')]"
+        },
+        "acaSubnetId": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "acaDisableNetworkAccess": {
+            "type": "string",
+            "defaultValue": "No",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "acaNwLocation": {
+            "type": "string",
+            "defaultValue": "[parameters('location')]"
+        },
+        "acaMonCreation": {
+            "type": "string",
+            "defaultValue": "No",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "acaworkloadprofile": {
+            "type": "string",
+            "defaultValue": "Consumption"
+        },
+        "acaZone":{
+            "type": "bool",
+            "defaultValue": true,
+            "allowedValues": [
+                true,
+                false
+            ],
+            "metadata": {
+                "description": "ACA zone redundancy setup"
+            }
         }
     },
     "variables": {
@@ -2997,6 +3036,95 @@
                 }
             }
         },
+                // Deploying Azure Container Apps Environment into the primary region if 'ecomm' use case and 'Poc' is being selected or if 'Avatar' use case is being selected
+                {
+                    "condition": "[and(equals(parameters('aiUseCaseSelection'), 'ecomm'), equals(parameters('aiDeployOption'), 'PoC'))]",
+                    "type": "Microsoft.Resources/deployments",
+                    "apiVersion": "2022-09-01",
+                    "name": "[variables('deploymentNames').acaevDeploymentName]",
+                    "location": "[parameters('location')]",
+                    "dependsOn": [
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]"
+                    ],
+                    "properties": {
+                        "mode": "Incremental",
+                        "templateLink": {
+                            "contentVersion": "1.0.0.0",
+                            "uri": "[variables('templateUris').acaTemplateUri]"
+                        },
+                        "parameters": {
+                            "rgName": {
+                                "value": "[variables('resourceNames').rgName]"
+                            },
+                            "location": {
+                                "value": "[parameters('location')]"
+                            },
+                            "acaSubnetId": {
+                                "value": "[parameters('acaSubnetId')]"
+                            },
+                            "prefix": {
+                                "value": "[parameters('prefix')]"
+                            },
+                            "acaNwLocation": {
+                                "value": "[parameters('acaNwLocation')]"
+                            },
+                            "acaDisableNetworkAccess": {
+                                "value": "[parameters('acaDisableNetworkAccess')]"
+                            },
+                            "acaMonCreation": {
+                                "value": "[parameters('acaMonCreation')]"
+                            },
+                            "azMonWorkspaceName": {
+                                "value": "[variables('resourceNames').azMonWorkspaceName]"
+                            },
+                             "acaZone":{
+                                "value":"[parameters('acaZone')]"
+                            },
+                            "acaworkloadprofile":{
+                                "value": "Consumption"
+                            }
+                        }
+                    }
+                },
+
+
+                // Deploying Azure Container Apps into the primary region if 'ecomm' or 'avatar' use case is being selected
+                {
+                    "condition": "[and(equals(parameters('aiUseCaseSelection'), 'ecomm'), equals(parameters('aiDeployOption'), 'PoC'))]",
+                    "type": "Microsoft.Resources/deployments",
+                    "apiVersion": "2022-09-01",
+                    "name": "[variables('deploymentNames').containerAppDeploymentName]",
+                    "location": "[parameters('location')]",
+                    "dependsOn": [
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]",
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').acaevDeploymentName)]",
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').managedIdentityDeploymentName)]"
+                    ],
+                    "properties": {
+                        "mode": "Incremental",
+                        "templateLink": {
+                            "contentVersion": "1.0.0.0",
+                            "uri": "[variables('templateUris').containerAppTemplateUri]"
+                        },
+                        "parameters": {
+                            "rgName": {
+                                "value": "[variables('resourceNames').rgName]"
+                            },
+                            "location": {
+                                "value": "[parameters('location')]"
+                            },
+                            "prefix": {
+                                "value": "[parameters('prefix')]"
+                            },
+                            "acaworkloadprofile":{
+                                "value": "Consumption"
+                            },
+                            "userAssignedIdentity": {
+                                "value": "[reference(variables('deploymentNames').managedIdentityDeploymentName).outputs.identityResourceId.value]"
+                            }
+                        }
+                    }
+                },
         // Retrieving the objectId from DF system identity
         {
             "condition": "[and(equals(parameters('aiUseCaseSelection'), 'onyourdata'), equals(parameters('dfSystemIdentity'), 'Yes'))]",

@@ -1,0 +1,120 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "rgName": {
+            "type": "string",
+            "metadata": {
+                "description": "Select the naming convertion for the resource group that will be created"
+            }
+        },
+        "location": {
+            "type": "string",
+            "metadata": {
+                "description": "Provide the Azure region for the storage accont"
+            }
+        },
+        "prefix": {
+            "type": "string",
+            "metadata": {
+                "description": "Provide a prefix for the resources that will be created as part of the storage account"
+            }
+        },
+        "acaworkloadprofile": {
+            "type": "string",
+            "defaultValue": "Consumption"
+        },
+        "environmentId": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "userAssignedIdentity": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Provide the object ID of the user-assigned identity to be used to access the Key Vault data plane."
+            }
+        }
+    },
+    "variables": {
+        "name-compliant-aca": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), uniqueString(deployment().name)), 23))]",
+        "name-compliant-azMon": "[concat(parameters('prefix'), '-', parameters('location'), '-azmon')]",
+        "name-compliant-acame": "[take(concat(parameters('prefix'), '-', parameters('location'), '-acame'), 23)]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Resources/resourceGroups",
+            "apiVersion": "2022-09-01",
+            "location": "[parameters('location')]",
+            "name": "[parameters('rgName')]",
+            "properties": {}
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "aca-deployment",
+            "resourceGroup": "[parameters('rgName')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/resourceGroups/', parameters('rgName'))]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "resources": [
+                        {
+                            "type": "Microsoft.App/containerapps",
+                            "apiVersion": "2024-03-01",
+                            "name": "[variables('name-compliant-aca')]",
+                            "location": "[parameters('location')]",
+                            "identity": {
+                                "type": "userAssigned",
+                                "userAssignedIdentities": {
+                                    "[parameters('userAssignedIdentity')]": {}
+                                }
+                            },
+                            "tags": {
+                                "Env": "Demo"
+                            },
+                            "properties": {
+                                "environmentId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.App/managedEnvironments/', variables('name-compliant-acame'))]",
+                                "configuration": {
+                                    "activeRevisionsMode": "Single",
+                                    "ingress": {
+                                        "external": true,
+                                        "targetPort": 80,
+                                        "traffic": [
+                                            {
+                                                "weight": 100,
+                                                "latestRevision": true
+                                            }
+                                        ]
+                                    }
+                                },
+                                "template": {
+                                    "containers": [
+                                        {
+                                            "image": "belstarr/ai-search-api:v0.0.9",
+                                            "name": "ai-search-api-container",
+                                            "resources": {
+                                                "cpu": 0.25,
+                                                "memory": "0.5Gi",
+                                                "ephemeralStorage": "1Gi"
+                                            }
+                                        }
+                                    ],
+                                    "scale": {
+                                        "minReplicas": 1,
+                                        "maxReplicas": 3
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

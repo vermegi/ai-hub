@@ -1,0 +1,131 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "rgName": {
+            "type": "string",
+            "metadata": {
+                "description": "Select the naming convertion for the resource group that will be created"
+            }
+        },
+        "location": {
+            "type": "string",
+            "metadata": {
+                "description": "Provide the Azure region for the storage accont"
+            }
+        },
+        "prefix": {
+            "type": "string",
+            "metadata": {
+                "description": "Provide a prefix for the resources that will be created as part of the storage account"
+            }
+        },
+        "acaSubnetId": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "acaDisableNetworkAccess": {
+            "type": "string",
+            "defaultValue": "No",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "acaNwLocation": {
+            "type": "string",
+            "defaultValue": "[parameters('location')]"
+        },
+        "acaMonCreation": {
+            "type": "string",
+            "defaultValue": "No",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
+        },
+        "acaworkloadprofile": {
+            "type": "string",
+            "defaultValue": "Consumption"
+        },
+        "acaZone": {
+            "type": "bool",
+            "defaultValue": "",
+            "metadata": {
+                "description": "ACA zone redundancy setup"
+            }
+        },
+        "azMonWorkspaceName": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "acaworkspaceCustomerId": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "sharedKey": {
+            "type": "string",
+            "defaultValue": ""
+        }
+    },
+    "variables": {
+        "name-compliant-aca": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), uniqueString(deployment().name)), 23))]",
+        "name-compliant-azMon": "[concat(parameters('prefix'), '-', parameters('location'), '-azmon')]",
+        "name-compliant-acame": "[take(concat(parameters('prefix'), '-', parameters('location'), '-acame'), 23)]",
+        "logAnalyticsWorkspaceId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.OperationalInsights/workspaces/', variables('name-compliant-azMon'))]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Resources/resourceGroups",
+            "apiVersion": "2022-09-01",
+            "location": "[parameters('location')]",
+            "name": "[parameters('rgName')]",
+            "properties": {}
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('name-compliant-acame')]",
+            "resourceGroup": "[parameters('rgName')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/resourceGroups/', parameters('rgName'))]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "resources": [
+                        {
+                            "type": "Microsoft.App/managedEnvironments",
+                            "apiVersion": "2023-11-02-preview",
+                            "name": "[variables('name-compliant-acame')]",
+                            "location": "[parameters('location')]",
+                            "properties": {
+                                "appLogsConfiguration": {
+                                    "destination": "log-analytics",
+                                    "logAnalyticsConfiguration": {
+                                        "customerId": "[reference(variables('logAnalyticsWorkspaceId'), '2020-08-01').customerId]",
+                                        "sharedKey": "[listKeys(variables('logAnalyticsWorkspaceId'), '2020-08-01').primarySharedKey]"
+                                    }
+                                },
+                                "workloadProfiles": [
+                                    {
+                                        "name": "Consumption",
+                                        "workloadProfileType": "Consumption"
+                                    }
+                                ],
+                                "vnetConfiguration": {
+                                    "internal": false,
+                                    "infrastructureSubnetId": "[parameters('acaSubnetId')]"
+                                },
+                                "zoneRedundant": "[parameters('acaZone')]"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
