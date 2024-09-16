@@ -120,7 +120,7 @@
                                         "workloadProfileType": "Consumption"
                                     }
                                 ],
-                                "zoneRedundant": "false"
+                                "zoneRedundant": false
                             }
                         }
                     ]
