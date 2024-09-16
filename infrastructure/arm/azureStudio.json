@@ -126,7 +126,7 @@
                                 "name": "Standard_LRS"
                             },
                             "kind": "StorageV2",
-                            "identity": "[if(equals(parameters('videoSystemIdentity'), 'Yes'), variables('videoIdentity'), json('null'))]",
+                            "identity": "[if(equals(parameters('studioSystemIdentity'), 'Yes'), variables('studioIdentity'), json('null'))]",
                             "properties": {
                                 "accessTier": "Hot",
                                 "supportsHttpsTrafficOnly": true,
@@ -134,7 +134,7 @@
                                 "allowBlobPublicAccess": false,
                                 "allowSharedKeyAccess": true,
                                 "allowCrossTenantReplication": false,
-                                "defaultToOAuthAuthentication": "[if(equals(parameters('videoSystemIdentity'), 'Yes'), bool('true'), bool('false'))]",
+                                "defaultToOAuthAuthentication": "[if(equals(parameters('studioSystemIdentity'), 'Yes'), bool('true'), bool('false'))]",
                                 "allowedCopyScope": "AAD",
                                 "publicNetworkAccess": "Enabled",
                                 "isLocalUserEnabled": false,
