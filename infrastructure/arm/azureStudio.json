@@ -118,12 +118,37 @@
                     "parameters": {},
                     "resources": [
                         {
+                            "type": "Microsoft.Storage/storageAccounts",
+                            "apiVersion": "2023-01-01",
+                            "name": "[variables('name-compliant-storage')]",
+                            "location": "[parameters('location')]",
+                            "sku": {
+                                "name": "Standard_LRS"
+                            },
+                            "kind": "StorageV2",
+                            "identity": "[if(equals(parameters('videoSystemIdentity'), 'Yes'), variables('videoIdentity'), json('null'))]",
+                            "properties": {
+                                "accessTier": "Hot",
+                                "supportsHttpsTrafficOnly": true,
+                                "minimumTlsVersion": "TLS1_2",
+                                "allowBlobPublicAccess": false,
+                                "allowSharedKeyAccess": true,
+                                "allowCrossTenantReplication": false,
+                                "defaultToOAuthAuthentication": "[if(equals(parameters('videoSystemIdentity'), 'Yes'), bool('true'), bool('false'))]",
+                                "allowedCopyScope": "AAD",
+                                "publicNetworkAccess": "Enabled",
+                                "isLocalUserEnabled": false,
+                                "isSftpEnabled": false
+                            }
+                        },
+                        {
                             "type": "Microsoft.MachineLearningServices/workspaces",
                             "apiVersion": "2024-07-01-preview",
                             "name": "[variables('name-compliant-azureStudio')]",
                             "location": "[parameters('location')]",
                             "dependsOn": [
-                                "[concat('Microsoft.ContainerRegistry/registries/', variables('name-compliant-containerRegistry'))]"
+                                "[concat('Microsoft.ContainerRegistry/registries/', variables('name-compliant-containerRegistry'))]",
+                                "[concat('Microsoft.Storage/storageAccounts/', variables('name-compliant-storage'))]"
                             ],
                             "identity": "[if(equals(parameters('studioSystemIdentity'), 'Yes'), variables('studioIdentity'), json('null'))]",
                             "properties": {
