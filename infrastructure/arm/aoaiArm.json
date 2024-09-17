@@ -1782,58 +1782,58 @@
             }
         },
         // Deploying AI Studio into primary region
-        {
-            "condition": "[equals(parameters('aiUseCaseSelection'), 'avatar')]",
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2022-09-01",
-            "name": "[variables('deploymentNames').azureStudioDeploymentName]",
-            "location": "[parameters('location')]",
-            "dependsOn": [
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').keyVaultDeploymentName)]",
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').storageDeploymentName)]",
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]",
-                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureOpenAiDeploymentName)]"
-            ],
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "contentVersion": "1.0.0.0",
-                    "uri": "[variables('templateUris').azureStudioTemplateUri]"
-                },
-                "parameters": {
-                    "rgName": {
-                        "value": "[variables('resourceNames').rgName]"
-                    },
-                    "location": {
-                        "value": "[parameters('location')]"
-                    },
-                    "studioRbacAuthz": {
-                        "value": "[parameters('studioRbacAuthz')]"
-                    },
-                    "studioSubnetId": {
-                        "value": "[parameters('studioSubnetId')]"
-                    },
-                    "prefix": {
-                        "value": "[parameters('prefix')]"
-                    },
-                    "studioNwLocation": {
-                        "value": "[parameters('studioNwLocation')]"
-                    },
-                    "studioDisableNetworkAccess": {
-                        "value": "[parameters('studioDisableNetworkAccess')]"
-                    },
-                    "studioSystemIdentity": {
-                        "value": "[parameters('studioSystemIdentity')]"
-                    },
-                    "studioRestrictOutboundNetworkAccess": {
-                        "value": "[parameters('studioRestrictOutboundNetworkAccess')]"
-                    },
-                    "studioMonCreation": {
-                        "value": "[parameters('studioMonCreation')]"
-                    }
-                }
-            }
-        },
+        // {
+        //     "condition": "[equals(parameters('aiUseCaseSelection'), 'avatar')]",
+        //     "type": "Microsoft.Resources/deployments",
+        //     "apiVersion": "2022-09-01",
+        //     "name": "[variables('deploymentNames').azureStudioDeploymentName]",
+        //     "location": "[parameters('location')]",
+        //     "dependsOn": [
+        //         "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').keyVaultDeploymentName)]",
+        //         "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').storageDeploymentName)]",
+        //         "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]",
+        //         "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureOpenAiDeploymentName)]"
+        //     ],
+        //     "properties": {
+        //         "mode": "Incremental",
+        //         "templateLink": {
+        //             "contentVersion": "1.0.0.0",
+        //             "uri": "[variables('templateUris').azureStudioTemplateUri]"
+        //         },
+        //         "parameters": {
+        //             "rgName": {
+        //                 "value": "[variables('resourceNames').rgName]"
+        //             },
+        //             "location": {
+        //                 "value": "[parameters('location')]"
+        //             },
+        //             "studioRbacAuthz": {
+        //                 "value": "[parameters('studioRbacAuthz')]"
+        //             },
+        //             "studioSubnetId": {
+        //                 "value": "[parameters('studioSubnetId')]"
+        //             },
+        //             "prefix": {
+        //                 "value": "[parameters('prefix')]"
+        //             },
+        //             "studioNwLocation": {
+        //                 "value": "[parameters('studioNwLocation')]"
+        //             },
+        //             "studioDisableNetworkAccess": {
+        //                 "value": "[parameters('studioDisableNetworkAccess')]"
+        //             },
+        //             "studioSystemIdentity": {
+        //                 "value": "[parameters('studioSystemIdentity')]"
+        //             },
+        //             "studioRestrictOutboundNetworkAccess": {
+        //                 "value": "[parameters('studioRestrictOutboundNetworkAccess')]"
+        //             },
+        //             "studioMonCreation": {
+        //                 "value": "[parameters('studioMonCreation')]"
+        //             }
+        //         }
+        //     }
+        // },
         // Deploying Azure AI Video Indexer into primary region
         {
             "condition": "[equals(parameters('aiUseCaseSelection'), 'video')]",
