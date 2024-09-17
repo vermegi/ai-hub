@@ -210,22 +210,22 @@
                               "managedNetwork": {
                                 "isolationMode": "AllowOnlyApprovedOutbound",
                                 "outboundRules": {
-                                  "vault": {
-                                    "status": "Active",
-                                    "type": "PrivateEndpoint",
-                                    "destination": {
-                                        "serviceResourceId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.KeyVault/vaults/', variables('name-compliant-keyvault'))]",
-                                        "subresourceTarget": "vault"
-                                    }
-                                  },
-                                  "storage": {
-                                    "status": "Active",
-                                    "type": "PrivateEndpoint",
-                                    "destination": {
-                                        "serviceResourceId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.Storage/storageAccounts/', variables('name-compliant-storage'))]",
-                                        "subresourceTarget": "blob"
-                                    }
-                                  },
+                                //   "vault": {
+                                //     "status": "Active",
+                                //     "type": "PrivateEndpoint",
+                                //     "destination": {
+                                //         "serviceResourceId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.KeyVault/vaults/', variables('name-compliant-keyvault'))]",
+                                //         "subresourceTarget": "vault"
+                                //     }
+                                //   },
+                                //   "storage": {
+                                //     "status": "Active",
+                                //     "type": "PrivateEndpoint",
+                                //     "destination": {
+                                //         "serviceResourceId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.Storage/storageAccounts/', variables('name-compliant-storage'))]",
+                                //         "subresourceTarget": "blob"
+                                //     }
+                                //   },
                                   "aoai": {
                                     "status": "Active",
                                     "type": "PrivateEndpoint",
@@ -234,14 +234,14 @@
                                         "subresourceTarget": "account"
                                     }
                                   },
-                                  "registry": {
-                                    "status": "Active",
-                                    "type": "PrivateEndpoint",
-                                    "destination": {
-                                        "serviceResourceId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.ContainerRegistry/registries/', variables('name-compliant-containerRegistry'))]",
-                                        "subresourceTarget": "registry"
-                                    }
-                                  },
+                                //   "registry": {
+                                //     "status": "Active",
+                                //     "type": "PrivateEndpoint",
+                                //     "destination": {
+                                //         "serviceResourceId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.ContainerRegistry/registries/', variables('name-compliant-containerRegistry'))]",
+                                //         "subresourceTarget": "registry"
+                                //     }
+                                //   },
                                   "search": {
                                     "status": "Active",
                                     "type": "PrivateEndpoint",
@@ -250,7 +250,8 @@
                                         "subresourceTarget": "searchService"
                                     }
                                   }
-                                }
+                                },
+                                "status": "Active"
                               }
                             },
                             "kind": "hub"

@@ -1791,6 +1791,7 @@
             "dependsOn": [
                 "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').keyVaultDeploymentName)]",
                 "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').storageDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureAiSearchDeploymentName)]",
                 "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]",
                 "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureOpenAiDeploymentName)]"
             ],
