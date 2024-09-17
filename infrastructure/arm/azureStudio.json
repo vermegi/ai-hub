@@ -101,11 +101,11 @@
             "apiVersion": "2022-09-01",
             "name": "[parameters('rgName')]",
             "location": "[parameters('location')]"
-        },
+        }, 
         {
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2022-09-01",
-            "name": "azureStudio",
+            "name": "azureStudio-dependencies",
             "resourceGroup": "[parameters('rgName')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/resourceGroups/', parameters('rgName'))]"
@@ -141,6 +141,58 @@
                                 "isSftpEnabled": false
                             }
                         },
+                       {
+                       "type": "Microsoft.ContainerRegistry/registries",
+                       "apiVersion": "2023-07-01",
+                       "name": "[variables('name-compliant-containerRegistry')]",
+                       "location": "[parameters('location')]",
+                       "sku": {
+                           "name": "Premium"
+                       },
+                       "properties": {
+                           "adminUserEnabled": false,
+                           "dataEndpointEnabled": false,
+                           "networkRuleBypassOptions": "AzureServices",
+                           "networkRuleSet": {
+                           "defaultAction": "Deny"
+                           },
+                           "policies": {
+                           "quarantinePolicy": {
+                               "status": "disabled"
+                           },
+                           "retentionPolicy": {
+                               "status": "enabled",
+                               "days": 7
+                           },
+                           "trustPolicy": {
+                               "status": "enabled",
+                               "type": "Notary"
+                           }
+                           },
+                           "publicNetworkAccess": "Disabled",
+                           "zoneRedundancy": "Disabled"
+                          }
+                       }
+                    ]
+                }
+            }
+        },        
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "azureStudio",
+            "resourceGroup": "[parameters('rgName')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/resourceGroups/', parameters('rgName'))]",
+                "[resourceId('Microsoft.Resources/deployments', 'azureStudio-dependencies')]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "resources": [
                         {
                             "type": "Microsoft.MachineLearningServices/workspaces",
                             "apiVersion": "2024-07-01-preview",
@@ -206,38 +258,6 @@
                                     }
                                 ]
                             }
-                       },
-                       {
-                       "type": "Microsoft.ContainerRegistry/registries",
-                       "apiVersion": "2023-07-01",
-                       "name": "[variables('name-compliant-containerRegistry')]",
-                       "location": "[parameters('location')]",
-                       "sku": {
-                           "name": "Premium"
-                       },
-                       "properties": {
-                           "adminUserEnabled": false,
-                           "dataEndpointEnabled": false,
-                           "networkRuleBypassOptions": "AzureServices",
-                           "networkRuleSet": {
-                           "defaultAction": "Deny"
-                           },
-                           "policies": {
-                           "quarantinePolicy": {
-                               "status": "disabled"
-                           },
-                           "retentionPolicy": {
-                               "status": "enabled",
-                               "days": 7
-                           },
-                           "trustPolicy": {
-                               "status": "enabled",
-                               "type": "Notary"
-                           }
-                           },
-                           "publicNetworkAccess": "Disabled",
-                           "zoneRedundancy": "Disabled"
-                          }
                        },
                        {
                         "condition": "[equals(parameters('studioMonCreation'), 'Yes')]",
