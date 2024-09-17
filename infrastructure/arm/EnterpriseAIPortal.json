@@ -2805,12 +2805,12 @@
                             "type": "Microsoft.Common.Section",
                             "label": "Azure AI Document Intelligence",
                             "elements": [],
-                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'))]"
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata')]"
                         },
                         {
                             "name": "aiDocInfo",
                             "type": "Microsoft.Common.TextBlock",
-                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata'))]",
+                            "visible": "[equals(steps('aiAuxiliarySettings').aiUseCaseSelection, 'onyourdata')]",
                             "options": {
                                 "icon": "None",
                                 "text": "Azure AI Document Intelligence enables you to effectively manage the velocity at which data is collected and processed and is key to improved operations, informed data-driven decisions, and enlightened innovation.",
