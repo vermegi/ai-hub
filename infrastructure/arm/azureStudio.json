@@ -198,10 +198,6 @@
                             "apiVersion": "2024-07-01-preview",
                             "name": "[variables('name-compliant-azureStudio')]",
                             "location": "[parameters('location')]",
-                            "dependsOn": [
-                                "[concat('Microsoft.ContainerRegistry/registries/', variables('name-compliant-containerRegistry'))]",
-                                "[concat('Microsoft.Storage/storageAccounts/', variables('name-compliant-storage'))]"
-                            ],
                             "identity": "[if(equals(parameters('studioSystemIdentity'), 'Yes'), variables('studioIdentity'), json('null'))]",
                             "properties": {
                               "friendlyName": "[variables('name-compliant-azureStudio')]",
