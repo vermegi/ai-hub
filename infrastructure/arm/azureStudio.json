@@ -184,7 +184,7 @@
             "resourceGroup": "[parameters('rgName')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Resources/resourceGroups/', parameters('rgName'))]",
-                "[resourceId('Microsoft.Resources/deployments', 'azureStudio-dependencies')]"
+                "[resourceId('Microsoft.Resources/deployments/', 'azureStudio-dependencies')]"
             ],
             "properties": {
                 "mode": "Incremental",
