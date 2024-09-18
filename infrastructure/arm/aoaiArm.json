@@ -3079,10 +3079,7 @@
                             "acaMonCreation": {
                                 "value": "[parameters('acaMonCreation')]"
                             },
-                            "azMonWorkspaceName": {
-                                "value": "[variables('resourceNames').azMonWorkspaceName]"
-                            },
-                             "acaZone":{
+                            "acaZone":{
                                 "value":"[parameters('acaZone')]"
                             },
                             "acaworkloadprofile":{
