@@ -814,7 +814,7 @@
             "rgCosmosRbacTemplateUri": "[uri(deployment().properties.templateLink.uri, 'rgCosmosRbac.json')]",
             "acaTemplateUri": "[uri(deployment().properties.templateLink.uri, 'containerAppsEnv.json')]",
             "containerAppTemplateUri": "[uri(deployment().properties.templateLink.uri, 'containerApps-avatar.json')]",
-            "staticWebAppTemplateUri": "[uri(deployment().properties.templateLink.uri, 'staticWebApps.json')]"
+            "staticWebAppTemplateUri": "[uri(deployment().properties.templateLink.uri, 'staticWebApp.json')]"
         },
         "deploymentSuffix": "[concat('-', guid(parameters('prefix')))]",
         "deploymentNames": {
