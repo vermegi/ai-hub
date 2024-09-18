@@ -784,6 +784,14 @@
             "metadata": {
                 "description": "ACA zone redundancy setup"
             }
+        },
+        "acaSystemIdentity": {
+            "type": "string",
+            "defaultValue": "No",
+            "allowedValues": [
+                "Yes",
+                "No"
+            ]
         }
     },
     "variables": {
@@ -3121,8 +3129,8 @@
                             "acaworkloadprofile":{
                                 "value": "Consumption"
                             },
-                            "userAssignedIdentity": {
-                                "value": "[reference(variables('deploymentNames').managedIdentityDeploymentName).outputs.identityResourceId.value]"
+                            "acaSystemIdentity": {
+                                "value": "[parameters('acaSystemIdentity')]"
                             }
                         }
                     }
