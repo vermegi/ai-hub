@@ -113,12 +113,12 @@
                         },
                         {
                             "condition": "[equals(parameters('acaMonCreation'), 'Yes')]",
-                            "type": "Microsoft.MachineLearningServices/workspaces/providers/diagnosticSettings",
+                            "type": "Microsoft.App/managedEnvironments/providers/diagnosticSettings",
                             "apiVersion": "2021-05-01-preview",
                             "name": "[concat(variables('name-compliant-aca'), '/', 'Microsoft.Insights/diag')]",
                             "location": "[parameters('location')]",
                             "dependsOn": [
-                                "[concat('Microsoft.MachineLearningServices/workspaces/', variables('name-compliant-aca'))]"
+                                "[concat('Microsoft.App/managedEnvironments/', variables('name-compliant-aca'))]"
                             ],
                             "properties": {
                                 "workspaceId": "[concat(subscription().id, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.OperationalInsights/workspaces/', variables('name-compliant-azMon'))]",
