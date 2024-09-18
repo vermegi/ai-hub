@@ -130,12 +130,11 @@
 
                                 "replicaRetryLimit": 0,
                                 "replicaTimeout": 1800,
-                                "scheduleTriggerConfig": {
-                                  "cronExpression": "*/1 * * * *",
-                                  "parallelism": 1,
-                                  "replicaCompletionCount": 1
-                                },
-                                "triggerType": "Schedule"
+                                "manualTriggerConfig": {
+                                    "parallelism": 1,
+                                    "replicaCompletionCount": 1
+                                  },
+                                "triggerType": "Manual"
                               },
                               "environmentId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.App/managedEnvironments/', variables('name-compliant-acame'))]",
                               "template": {
@@ -169,12 +168,11 @@
 
                                 "replicaRetryLimit": 0,
                                 "replicaTimeout": 1800,
-                                "scheduleTriggerConfig": {
-                                  "cronExpression": "*/1 * * * *",
-                                  "parallelism": 1,
-                                  "replicaCompletionCount": 1
-                                },
-                                "triggerType": "Schedule"
+                                "manualTriggerConfig": {
+                                    "parallelism": 1,
+                                    "replicaCompletionCount": 1
+                                  },
+                                "triggerType": "Manual"
                               },
                               "environmentId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.App/managedEnvironments/', variables('name-compliant-acame'))]",
                               "template": {
