@@ -38,6 +38,8 @@
     },
     "variables": {
         "name-compliant-aca": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), uniqueString(deployment().name)), 23))]",
+        "name-compliant-aca-job1": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), 'job1', uniqueString(deployment().name)), 23))]",
+        "name-compliant-aca-job2": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), 'job2', uniqueString(deployment().name)), 23))]",
         "name-compliant-azMon": "[concat(parameters('prefix'), '-', parameters('location'), '-azmon')]",
         "name-compliant-acame": "[take(concat(parameters('prefix'), '-', parameters('location'), '-acame'), 23)]"
     },
@@ -111,7 +113,85 @@
                                     }
                                 }
                             }
-                        }
+                        },
+                        {
+                            "type": "Microsoft.App/jobs",
+                            "apiVersion": "2024-03-01",
+                            "name": "[variables('name-compliant-aca-job1')]",
+                            "location": "[parameters('location')]",
+                            "identity": {
+                                "type": "userAssigned",
+                                "userAssignedIdentities": {
+                                    "[parameters('userAssignedIdentity')]": {}
+                                }
+                            },
+                            "properties": {
+                              "configuration": {
+
+                                "replicaRetryLimit": 0,
+                                "replicaTimeout": 1800,
+                                "scheduleTriggerConfig": {
+                                  "cronExpression": "*/1 * * * *",
+                                  "parallelism": 1,
+                                  "replicaCompletionCount": 1
+                                },
+                                "triggerType": "Schedule"
+                              },
+                              "environmentId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.App/managedEnvironments/', variables('name-compliant-acame'))]",
+                              "template": {
+                                "containers": [
+                                  {
+                                    "image": "mcr.microsoft.com/k8se/quickstart-jobs:latest",
+                                    "name": "main",
+                                    "resources": {
+                                      "cpu": 0.25,
+                                      "memory": "0.5Gi"
+                                    }
+                                  }
+                                ]
+                              },
+                              "workloadProfileName": "Consumption"
+                            }
+                          },
+                          {
+                            "type": "Microsoft.App/jobs",
+                            "apiVersion": "2024-03-01",
+                            "name": "[variables('name-compliant-aca-job2')]",
+                            "location": "[parameters('location')]",
+                            "identity": {
+                                "type": "userAssigned",
+                                "userAssignedIdentities": {
+                                    "[parameters('userAssignedIdentity')]": {}
+                                }
+                            },
+                            "properties": {
+                              "configuration": {
+
+                                "replicaRetryLimit": 0,
+                                "replicaTimeout": 1800,
+                                "scheduleTriggerConfig": {
+                                  "cronExpression": "*/1 * * * *",
+                                  "parallelism": 1,
+                                  "replicaCompletionCount": 1
+                                },
+                                "triggerType": "Schedule"
+                              },
+                              "environmentId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.App/managedEnvironments/', variables('name-compliant-acame'))]",
+                              "template": {
+                                "containers": [
+                                  {
+                                    "image": "mcr.microsoft.com/k8se/quickstart-jobs:latest",
+                                    "name": "main",
+                                    "resources": {
+                                      "cpu": 0.25,
+                                      "memory": "0.5Gi"
+                                    }
+                                  }
+                                ]
+                              },
+                              "workloadProfileName": "Consumption"
+                            }
+                          }                                
                     ]
                 }
             }

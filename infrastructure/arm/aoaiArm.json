@@ -813,7 +813,7 @@
             "adfOnYourDataTemplateUri": "[uri(deployment().properties.templateLink.uri, 'adfOnYourData.json')]",
             "rgCosmosRbacTemplateUri": "[uri(deployment().properties.templateLink.uri, 'rgCosmosRbac.json')]",
             "acaTemplateUri": "[uri(deployment().properties.templateLink.uri, 'containerAppsEnv.json')]",
-            "containerAppTemplateUri": "[uri(deployment().properties.templateLink.uri, 'containerApps.json')]"
+            "containerAppTemplateUri": "[uri(deployment().properties.templateLink.uri, 'containerApps-avatar.json')]"
         },
         "deploymentSuffix": "[concat('-', guid(parameters('prefix')))]",
         "deploymentNames": {
@@ -3093,9 +3093,9 @@
                 },
 
 
-                // Deploying Azure Container Apps into the primary region if 'ecomm' or 'avatar' use case is being selected
+                // Deploying Azure Container Apps into the primary region if 'avatar' use case is being selected
                 {
-                    "condition": "[or(and(equals(parameters('aiUseCaseSelection'), 'ecomm'), equals(parameters('aiDeployOption'), 'PoC')), equals(parameters('aiUseCaseSelection'), 'avatar'))]",
+                    "condition": "[equals(parameters('aiUseCaseSelection'), 'avatar')]",
                     "type": "Microsoft.Resources/deployments",
                     "apiVersion": "2022-09-01",
                     "name": "[variables('deploymentNames').containerAppDeploymentName]",
