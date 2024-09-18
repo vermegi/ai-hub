@@ -813,8 +813,7 @@
             "adfOnYourDataTemplateUri": "[uri(deployment().properties.templateLink.uri, 'adfOnYourData.json')]",
             "rgCosmosRbacTemplateUri": "[uri(deployment().properties.templateLink.uri, 'rgCosmosRbac.json')]",
             "acaTemplateUri": "[uri(deployment().properties.templateLink.uri, 'containerAppsEnv.json')]",
-            "containerAppTemplateUri": "[uri(deployment().properties.templateLink.uri, 'containerApps-avatar.json')]",
-            "staticWebAppTemplateUri": "[uri(deployment().properties.templateLink.uri, 'staticWebApp.json')]"
+            "containerAppTemplateUri": "[uri(deployment().properties.templateLink.uri, 'containerApps-avatar.json')]"
         },
         "deploymentSuffix": "[concat('-', guid(parameters('prefix')))]",
         "deploymentNames": {
@@ -876,8 +875,7 @@
             "rgCosmosRbacDeploymentName": "[take(concat(parameters('prefix'), '-cosmos-rbac-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azVideoIndexerRbacForBlobOwnerDeploymentName": "[take(concat(parameters('prefix'), '-videoIndexer-rbac-for-blobOwner-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "acaevDeploymentName": "[take(concat(parameters('prefix'), '-acaev-', parameters('location'), variables('deploymentSuffix')), 64)]",
-            "containerAppDeploymentName": "[take(concat(parameters('prefix'), '-aca-', parameters('location'), variables('deploymentSuffix')), 64)]",
-            "staticWebAppDeploymentName": "[take(concat(parameters('prefix'), '-swa-', parameters('location'), variables('deploymentSuffix')), 64)]"
+            "containerAppDeploymentName": "[take(concat(parameters('prefix'), '-aca-', parameters('location'), variables('deploymentSuffix')), 64)]"
         },
         "sampleAppRepoUrl": "https://github.com/microsoft/sample-app-aoai-chatGPT.git",
         "onYourDataSampleVariables": {
@@ -3125,41 +3123,6 @@
                             },
                             "acaworkloadprofile":{
                                 "value": "Consumption"
-                            },
-                            "userAssignedIdentity": {
-                                "value": "[reference(variables('deploymentNames').managedIdentityDeploymentName).outputs.identityResourceId.value]"
-                            }
-                        }
-                    }
-                },
-                // Deploying Static Web App into the primary region if 'avatar' use case is being selected
-                {
-                    "condition": "[equals(parameters('aiUseCaseSelection'), 'avatar')]",
-                    "type": "Microsoft.Resources/deployments",
-                    "apiVersion": "2022-09-01",
-                    "name": "[variables('deploymentNames').staticWebAppDeploymentName]",
-                    "location": "[parameters('location')]",
-                    "dependsOn": [
-                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]",
-                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').acaevDeploymentName)]",
-                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').containerAppDeploymentName)]",
-                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').managedIdentityDeploymentName)]"
-                    ],
-                    "properties": {
-                        "mode": "Incremental",
-                        "templateLink": {
-                            "contentVersion": "1.0.0.0",
-                            "uri": "[variables('templateUris').staticWebAppTemplateUri]"
-                        },
-                        "parameters": {
-                            "rgName": {
-                                "value": "[variables('resourceNames').rgName]"
-                            },
-                            "location": {
-                                "value": "[parameters('location')]"
-                            },
-                            "prefix": {
-                                "value": "[parameters('prefix')]"
                             },
                             "userAssignedIdentity": {
                                 "value": "[reference(variables('deploymentNames').managedIdentityDeploymentName).outputs.identityResourceId.value]"
