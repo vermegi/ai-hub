@@ -840,22 +840,28 @@
             "rgAzureVideoIndexerObjectIdDeploymentName": "[take(concat(parameters('prefix'), '-videoIndexer-objectId-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "rgAzureAiSearchObjectIdDeploymentName": "[take(concat(parameters('prefix'), '-search-objectId-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "rgAzureDocumentIntelligenceObjectIdDeploymentName": "[take(concat(parameters('prefix'), '-doc-objectId-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "rgAiStudioObjectIdDeploymentName": "[take(concat(parameters('prefix'), '-studio-objectId-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "rgAzureApimObjectIdDeploymentName": "[take(concat(parameters('prefix'), '-apim-objectId-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "rgAzureDfObjectIdDeploymentName": "[take(concat(parameters('prefix'), '-df-objectId-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "rgAzureWebAppObjectIdDeploymentName": "[take(concat(parameters('prefix'), '-webapp-objectId-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azOpenAiRbacForKvDeploymentName": "[take(concat(parameters('prefix'), '-aoai-rbac-for-kv-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azOpenAiRbacForKvSecretDeploymentName": "[take(concat(parameters('prefix'), '-aoai-rbac-for-kvsecret-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "azAiStudioRbacForKvSecretDeploymentName": "[take(concat(parameters('prefix'), '-studio-rbac-for-kvsecret-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azOpenAiEmbeddingRbacForKvSecretDeploymentName": "[take(concat(parameters('prefix'), '-aoai-orch-for-kvsecret-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azOpenAiRbacForSearchIndexDeploymentName": "[take(concat(parameters('prefix'), '-aoai-rbac-for-searchIndex-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "azAiStudioRbacForSearchIndexDeploymentName": "[take(concat(parameters('prefix'), '-studio-rbac-for-searchIndex-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azOpenAiEmbeddingRbacForSearchIndexDeploymentName": "[take(concat(parameters('prefix'), '-aoai-orch-rbac-for-searchIndex-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azOpenAiRbacForSearchServiceDeploymentName": "[take(concat(parameters('prefix'), '-aoai-rbac-for-searchService-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "azAiStudioRbacForSearchServiceDeploymentName": "[take(concat(parameters('prefix'), '-studio-rbac-for-searchService-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azOpenAiEmbeddingRbacForSearchServiceDeploymentName": "[take(concat(parameters('prefix'), '-aoai-orch-rbac-for-searchService-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azAiSearchRbacForOpenAiDeploymentName": "[take(concat(parameters('prefix'), '-search-rbac-for-aoai', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "azAiStudioRbacForOpenAiDeploymentName": "[take(concat(parameters('prefix'), '-studio-rbac-for-aoai', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azSampleAppRbacForSearchContributorDeploymentName": "[take(concat(parameters('prefix'), '-sampleapp-rbac-for-searchContributor-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azOpenAiRbacForBlobContributorDeploymentName": "[take(concat(parameters('prefix'), '-aoai-rbac-for-blobContributor-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azOpenAiEmbeddingRbacForBlobContributorDeploymentName": "[take(concat(parameters('prefix'), '-aoai-orch-rbac-for-blobContributor-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azAiSearchRbacForBlobContributorDeploymentName": "[take(concat(parameters('prefix'), '-search-rbac-for-blobContributor-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azAiDocumentIntelligenceRbacForBlobContributorDeploymentName": "[take(concat(parameters('prefix'), '-doc-rbac-for-blobContributor-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "azAiStudioRbacForBlobContributorDeploymentName": "[take(concat(parameters('prefix'), '-studio-rbac-for-blobContributor-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azApimRbacForOpenAiDeploymentName": "[take(concat(parameters('prefix'), '-apim-rbac-for-aoai-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azSampleAppRbacForOpenAiDeploymentName": "[take(concat(parameters('prefix'), '-sampleapp-rbac-for-aoai-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azSampleAppRbacForSearchIndexDeploymentName": "[take(concat(parameters('prefix'), '-sampleapp-rbac-for-searchIndex-', parameters('location'), variables('deploymentSuffix')), 64)]",
@@ -881,6 +887,7 @@
             "adfOnYourDataDeploymentName": "[take(concat(parameters('prefix'), '-adfOnYourData-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azVideoIndexerDeploymentName": "[take(concat(parameters('prefix'), '-videoIndexer-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "rgCosmosRbacDeploymentName": "[take(concat(parameters('prefix'), '-cosmos-rbac-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "rgStudioCosmosRbacDeploymentName": "[take(concat(parameters('prefix'), '-studio-cosmos-rbac-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azVideoIndexerRbacForBlobOwnerDeploymentName": "[take(concat(parameters('prefix'), '-videoIndexer-rbac-for-blobOwner-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "acaevDeploymentName": "[take(concat(parameters('prefix'), '-acaev-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "containerAppDeploymentName": "[take(concat(parameters('prefix'), '-aca-', parameters('location'), variables('deploymentSuffix')), 64)]"
@@ -912,6 +919,7 @@
             "azMonWorkspaceName": "[concat(parameters('prefix'), '-', parameters('location'), '-azmon')]",
             "cosmosDbName": "[toLower(concat(parameters('prefix'), '-', parameters('location'), '-cosmosdb'))]",
             "azAiDocumentIntelligenceName": "[concat(parameters('prefix'), '-', parameters('location'), '-azdocintel')]",
+            "azAiStudioName": "[concat(parameters('prefix'), '-', parameters('location'), '-aistudio')]",
             "storageAccountName": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), uniqueString(variables('deploymentNames').storageDeploymentName)), 23))]",
             "adfOnYourDataName": "[concat(parameters('prefix'), '-', parameters('location'), '-azdf')]",
             "apimName": "[concat(parameters('prefix'), '-', parameters('apimLocation'), '-apim')]",
@@ -925,6 +933,7 @@
             "azureAiSearchResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.Search/searchServices/', variables('resourceNames').azureAiSearchName)]",
             "cosmosDbResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.DocumentDB/databaseAccounts/', variables('resourceNames').cosmosDbName)]",
             "azAiDocumentIntelligenceResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.CognitiveServices/accounts/', variables('resourceNames').azAiDocumentIntelligenceName)]",
+            "azAiStudioResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.MachineLearningServices/workspaces/', variables('resourceNames').azAiStudioName)]",
             "adfOnYourDataResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.DataFactory/factories/', variables('resourceNames').adfOnYourDataName)]",
             "aoaiOrchestratorResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.CognitiveServices/accounts/', variables('resourceNames').aoaiOrchestratorName)]",
             "apimResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.ApiManagement/service/', variables('resourceNames').apimName)]",
@@ -938,6 +947,7 @@
             "storageAccount": "2023-01-01",
             "apim": "2023-03-01-preview",
             "azAiDocumentIntelligence": "2022-03-01",
+            "azAiStudio": "2024-07-01-preview",
             "azureAiSearch": "2022-09-01",
             "webSites": "2021-02-01",
             "videoIndexer": "2024-01-01"
@@ -1837,6 +1847,9 @@
                     "studioRestrictOutboundNetworkAccess": {
                         "value": "[parameters('studioRestrictOutboundNetworkAccess')]"
                     },
+                    "storageAccountResourceId": {
+                        "value": "[variables('resourceIds').storageAccountResourceId]"
+                    },
                     "studioMonCreation": {
                         "value": "[parameters('studioMonCreation')]"
                     }
@@ -2066,6 +2079,32 @@
                 }
             }
         },
+        // Retrieving objectId of the AI Studio System Identity
+        {
+            "condition": "[and(equals(parameters('studioSystemIdentity'), 'Yes'), equals(parameters('aiSystemIdentity'), 'Yes'), equals(parameters('stRbacAuthz'), 'Yes'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('deploymentNames').rgAiStudioObjectIdDeploymentName]",
+            "resourceGroup": "[variables('resourceNames').rgName]",
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureStudioDeploymentName)]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('templateUris').rgAzureObjectId]"
+                },
+                "parameters": {
+                    "resourceId": {
+                        "value": "[variables('resourceIds').azAiStudioResourceId]"
+                    },
+                    "apiVersion": {
+                        "value": "[variables('apiVersions').azAiStudio]"
+                    }
+                }
+            }
+        },        
         // Retrieving objectId of the API Management system identity
         {
             "condition": "[and(not(empty(parameters('aiMultiLocation'))), equals(parameters('aiRbacAuthz'), 'Yes'))]",
@@ -2176,6 +2215,35 @@
                 }
             }
         },
+        // Creating Role Assignment for AI Studio on Key Vault for Key Vault Secrets User
+        {
+            "condition": "[and(equals(parameters('studioSystemIdentity'), 'Yes'), equals(parameters('kvRbacAuthZ'), 'Yes'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('deploymentNames').azAiStudioRbacForKvSecretDeploymentName]",
+            "resourceGroup": "[variables('resourceNames').rgName]",
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').rgAiStudioObjectIdDeploymentName)]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('templateUris').rgRbacTemplateUri]"
+                },
+                "parameters": {
+                    "roleDefinitionId": {
+                        "value": "4633458b-17de-408a-b874-0445c86b69e6"
+                    },
+                    "principalType": {
+                        "value": "ServicePrincipal"
+                    },
+                    "principalId": {
+                        "value": "[if(and(equals(parameters('studioSystemIdentity'), 'Yes'), equals(parameters('kvRbacAuthZ'), 'Yes')), reference(variables('deploymentNames').rgAiSTudioObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
+                    }
+                }
+            }
+        },
         // Creating Role Assignment for AOAI Embeddings on Key Vault for Key Vault Secrets User
         {
             "condition": "[and(equals(parameters('aiAddEmbeddingInstance'), 'Same'), equals(parameters('aiSystemIdentity'), 'Yes'), equals(parameters('kvRbacAuthZ'), 'Yes'))]",
@@ -2231,6 +2299,36 @@
                     },
                     "principalId": {
                         "value": "[if(and(equals(parameters('aiSearchRbacAuthz'), 'Yes'), equals(parameters('aiSystemIdentity'), 'Yes')), reference(variables('deploymentNames').rgAzureAiObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
+                    }
+                }
+            }
+        },
+        // Creating Role Assignment for AI Studio on AI Search using Search Index Data Reader role
+        {
+            "condition": "[and(equals(parameters('aiSearchRbacAuthz'), 'Yes'), equals(parameters('studioSystemIdentity'), 'Yes'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('deploymentNames').azAiStudioRbacForSearchIndexDeploymentName]",
+            "resourceGroup": "[variables('resourceNames').rgName]",
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').rgAiStudioObjectIdDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureAiSearchDeploymentName)]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('templateUris').rgRbacTemplateUri]"
+                },
+                "parameters": {
+                    "roleDefinitionId": {
+                        "value": "1407120a-92aa-4202-b7e9-c0e197c71c8f"
+                    },
+                    "principalType": {
+                        "value": "ServicePrincipal"
+                    },
+                    "principalId": {
+                        "value": "[if(and(equals(parameters('aiSearchRbacAuthz'), 'Yes'), equals(parameters('studioSystemIdentity'), 'Yes')), reference(variables('deploymentNames').rgAiStudioObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
                     }
                 }
             }
@@ -2295,6 +2393,36 @@
                 }
             }
         },
+        // Creating Role Assignment for AI Studio on AI Search using Search Service Contributor role
+        {
+            "condition": "[and(equals(parameters('studioSystemIdentity'), 'Yes'), equals(parameters('aiSearchRbacAuthz'), 'Yes'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('deploymentNames').azAiStudioRbacForSearchServiceDeploymentName]",
+            "resourceGroup": "[variables('resourceNames').rgName]",
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').rgAiStudioObjectIdDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureAiSearchDeploymentName)]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('templateUris').rgRbacTemplateUri]"
+                },
+                "parameters": {
+                    "roleDefinitionId": {
+                        "value": "7ca78c08-252a-4471-8644-bb5ff32d4ba0"
+                    },
+                    "principalType": {
+                        "value": "ServicePrincipal"
+                    },
+                    "principalId": {
+                        "value": "[if(and(equals(parameters('aiSearchRbacAuthz'), 'Yes'), equals(parameters('studioSystemIdentity'), 'Yes')), reference(variables('deploymentNames').rgAiStudioObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
+                    }
+                }
+            }
+        },
         // Creating Role Assignment for AOAI Embeddings on AI Search using Search Contributor role
         {
             "condition": "[and(equals(parameters('aiAddEmbeddingInstance'), 'Same'), equals(parameters('aiSystemIdentity'), 'Yes'), equals(parameters('aiSearchRbacAuthz'), 'Yes'))]",
@@ -2351,6 +2479,36 @@
                     },
                     "principalId": {
                         "value": "[if(and(equals(parameters('aiSearchSystemIdentity'), 'Yes'), equals(parameters('aiRbacAuthz'), 'Yes')), reference(variables('deploymentNames').rgAzureAiSearchObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
+                    }
+                }
+            }
+        },
+        // Creating Role Assignment for AI Studio on AOAI using Cognitive Services Open AI Contributor role
+        {
+            "condition": "[and(equals(parameters('studioSystemIdentity'), 'Yes'), equals(parameters('aiRbacAuthz'), 'Yes'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('deploymentNames').azAiStudioRbacForOpenAiDeploymentName]",
+            "resourceGroup": "[variables('resourceNames').rgName]",
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureOpenAiDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').rgAiStudioObjectIdDeploymentName)]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('templateUris').rgRbacTemplateUri]"
+                },
+                "parameters": {
+                    "roleDefinitionId": {
+                        "value": "a001fd3d-188f-4b5d-821b-7da978bf7442"
+                    },
+                    "principalType": {
+                        "value": "ServicePrincipal"
+                    },
+                    "principalId": {
+                        "value": "[if(and(equals(parameters('studioSystemIdentity'), 'Yes'), equals(parameters('aiRbacAuthz'), 'Yes')), reference(variables('deploymentNames').rgAiStudioObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
                     }
                 }
             }
@@ -2500,6 +2658,36 @@
                     },
                     "principalId": {
                         "value": "[if(and(equals(parameters('docSystemIdentity'), 'Yes'), equals(parameters('stRbacAuthz'), 'Yes')), reference(variables('deploymentNames').rgAzureDocumentIntelligenceObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
+                    }
+                }
+            }
+        },
+        // Creating Role Assignment for AI Studio on Storage Account using Storage Blob Data Contributor role
+        {
+            "condition": "[and(equals(parameters('studioSystemIdentity'), 'Yes'), equals(parameters('stRbacAuthz'), 'Yes'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('deploymentNames').azAiStudioRbacForBlobContributorDeploymentName]",
+            "resourceGroup": "[variables('resourceNames').rgName]",
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureStudioDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').storageDeploymentName)]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('templateUris').rgRbacTemplateUri]"
+                },
+                "parameters": {
+                    "roleDefinitionId": {
+                        "value": "ba92f5b4-2d11-453d-a403-e96b0029c9fe"
+                    },
+                    "principalType": {
+                        "value": "ServicePrincipal"
+                    },
+                    "principalId": {
+                        "value": "[if(and(equals(parameters('studioSystemIdentity'), 'Yes'), equals(parameters('stRbacAuthz'), 'Yes')), reference(variables('deploymentNames').rgAiStudioObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
                     }
                 }
             }
@@ -3184,6 +3372,36 @@
                     },
                     "principalId": {
                         "value": "[if(and(equals(parameters('aiUseCaseSelection'), 'onyourdata'), equals(parameters('dfSystemIdentity'), 'Yes')), reference(variables('deploymentNames').rgAzureDfObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
+                    },
+                    "cosmosResourceName": {
+                        "value": "[variables('resourceNames').cosmosDbName]"
+                    }
+                }
+            }
+        },
+        // Creating Cosmos Db Role Assignment for AI Studio on Cosmos DB using Contributor role
+        {
+            "condition": "[and(equals(parameters('aiUseCaseSelection'), 'avatar'), equals(parameters('studioSystemIdentity'), 'Yes'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('deploymentNames').rgStudioCosmosRbacDeploymentName]",
+            "resourceGroup": "[variables('resourceNames').rgName]",
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').cosmosDbDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureStudioDeploymentName)]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('templateUris').rgCosmosRbacTemplateUri]"
+                },
+                "parameters": {
+                    "rgName": {
+                        "value": "[variables('resourceNames').rgName]"
+                    },
+                    "principalId": {
+                        "value": "[if(and(equals(parameters('aiUseCaseSelection'), 'avatar'), equals(parameters('studioSystemIdentity'), 'Yes')), reference(variables('deploymentNames').rgAiStudioObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
                     },
                     "cosmosResourceName": {
                         "value": "[variables('resourceNames').cosmosDbName]"

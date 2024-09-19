@@ -58,6 +58,10 @@
                 "No"
             ]
         },
+        "storageAccountResourceId": {
+            "type": "string",
+            "defaultValue": "/subscriptions/be25820a-df86-4794-9e95-6a45cd5c0941/resourceGroups/tf-rg-switzerlandnorth/providers/Microsoft.Storage/storageAccounts/tfswitzerlandnorthnzglm"
+        },
         "studioRestrictOutboundNetworkAccess": {
             "type": "string",
             "defaultValue": "No",
@@ -119,30 +123,6 @@
                     "contentVersion": "1.0.0.0",
                     "parameters": {},
                     "resources": [
-                        {
-                            "type": "Microsoft.Storage/storageAccounts",
-                            "apiVersion": "2023-01-01",
-                            "name": "[variables('name-compliant-storage')]",
-                            "location": "[parameters('location')]",
-                            "sku": {
-                                "name": "Standard_LRS"
-                            },
-                            "kind": "StorageV2",
-                            "identity": "[if(equals(parameters('studioSystemIdentity'), 'Yes'), variables('studioIdentity'), json('null'))]",
-                            "properties": {
-                                "accessTier": "Hot",
-                                "supportsHttpsTrafficOnly": true,
-                                "minimumTlsVersion": "TLS1_2",
-                                "allowBlobPublicAccess": false,
-                                "allowSharedKeyAccess": true,
-                                "allowCrossTenantReplication": false,
-                                "defaultToOAuthAuthentication": "[if(equals(parameters('studioSystemIdentity'), 'Yes'), bool('true'), bool('false'))]",
-                                "allowedCopyScope": "AAD",
-                                "publicNetworkAccess": "Enabled",
-                                "isLocalUserEnabled": false,
-                                "isSftpEnabled": false
-                            }
-                        },
                        {
                        "type": "Microsoft.ContainerRegistry/registries",
                        "apiVersion": "2023-07-01",
@@ -204,7 +184,7 @@
                             "properties": {
                               "friendlyName": "[variables('name-compliant-azureStudio')]",
                               "keyVault": "[concat(subscription().id, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.KeyVault/vaults/', variables('name-compliant-keyvault'))]",
-                              "storageAccount": "[concat(subscription().id, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.Storage/storageAccounts/', variables('name-compliant-storage'))]",
+                              "storageAccount": "[parameters('storageAccountResourceId')]",
                               "containerRegistry": "[concat(subscription().id, '/resourceGroups/', parameters('rgName'), '/providers/Microsoft.ContainerRegistry/registries/', variables('name-compliant-containerRegistry'))]",
                               "publicNetworkAccess": "Enabled",
                               "managedNetwork": {
