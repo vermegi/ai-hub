@@ -896,7 +896,7 @@
             "azVideoIndexerDeploymentName": "[take(concat(parameters('prefix'), '-videoIndexer-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "rgCosmosRbacDeploymentName": "[take(concat(parameters('prefix'), '-cosmos-rbac-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "rgStudioCosmosRbacDeploymentName": "[take(concat(parameters('prefix'), '-studio-cosmos-rbac-', parameters('location'), variables('deploymentSuffix')), 64)]",
-            "rgACABeCosmosRbacDeploymentName": "[take(concat(parameters('prefix'), '-studio-cosmos-rbac-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "rgACABeCosmosRbacDeploymentName": "[take(concat(parameters('prefix'), '-aca-be-cosmos-rbac-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azVideoIndexerRbacForBlobOwnerDeploymentName": "[take(concat(parameters('prefix'), '-videoIndexer-rbac-for-blobOwner-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "acaevDeploymentName": "[take(concat(parameters('prefix'), '-acaev-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "containerAppDeploymentName": "[take(concat(parameters('prefix'), '-aca-', parameters('location'), variables('deploymentSuffix')), 64)]"
