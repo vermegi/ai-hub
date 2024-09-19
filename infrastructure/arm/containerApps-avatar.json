@@ -38,9 +38,9 @@
         }
     },
     "variables": {
-        "name-compliant-aca1": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), '1', uniqueString(deployment().name)), 23))]",
-        "name-compliant-aca2": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), '2', uniqueString(deployment().name)), 23))]",
-        "name-compliant-aca-job1": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), 'job1', uniqueString(deployment().name)), 23))]",
+        "name-compliant-aca1": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), 'fe'), 23))]",
+        "name-compliant-aca2": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), 'be'), 23))]",
+        "name-compliant-aca-job1": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), 'pyjob'), 23))]",
         "name-compliant-aca-job2": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), 'job2', uniqueString(deployment().name)), 23))]",
         "name-compliant-azMon": "[concat(parameters('prefix'), '-', parameters('location'), '-azmon')]",
         "name-compliant-acame": "[take(concat(parameters('prefix'), '-', parameters('location'), '-acame'), 23)]",

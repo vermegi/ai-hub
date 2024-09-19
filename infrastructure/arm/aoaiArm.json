@@ -844,9 +844,12 @@
             "rgAzureApimObjectIdDeploymentName": "[take(concat(parameters('prefix'), '-apim-objectId-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "rgAzureDfObjectIdDeploymentName": "[take(concat(parameters('prefix'), '-df-objectId-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "rgAzureWebAppObjectIdDeploymentName": "[take(concat(parameters('prefix'), '-webapp-objectId-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "rgAzureACABEObjectIdDeploymentName": "[take(concat(parameters('prefix'), '-aca-be-objectId-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "rgAzureACAPYJobObjectIdDeploymentName": "[take(concat(parameters('prefix'), '-aca-py-job-objectId-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azOpenAiRbacForKvDeploymentName": "[take(concat(parameters('prefix'), '-aoai-rbac-for-kv-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azOpenAiRbacForKvSecretDeploymentName": "[take(concat(parameters('prefix'), '-aoai-rbac-for-kvsecret-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azAiStudioRbacForKvSecretDeploymentName": "[take(concat(parameters('prefix'), '-studio-rbac-for-kvsecret-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "azACABeRbacForKvSecretDeploymentName": "[take(concat(parameters('prefix'), '-aca-be-rbac-for-kvsecret-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azOpenAiEmbeddingRbacForKvSecretDeploymentName": "[take(concat(parameters('prefix'), '-aoai-orch-for-kvsecret-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azOpenAiRbacForSearchIndexDeploymentName": "[take(concat(parameters('prefix'), '-aoai-rbac-for-searchIndex-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azAiStudioRbacForSearchIndexDeploymentName": "[take(concat(parameters('prefix'), '-studio-rbac-for-searchIndex-', parameters('location'), variables('deploymentSuffix')), 64)]",
@@ -857,6 +860,8 @@
             "azAiSearchRbacForOpenAiDeploymentName": "[take(concat(parameters('prefix'), '-search-rbac-for-aoai', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azAiStudioRbacForOpenAiDeploymentName": "[take(concat(parameters('prefix'), '-studio-rbac-for-aoai', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azSampleAppRbacForSearchContributorDeploymentName": "[take(concat(parameters('prefix'), '-sampleapp-rbac-for-searchContributor-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "azACABeAppRbacForSearchContributorDeploymentName": "[take(concat(parameters('prefix'), '-aca-be-rbac-for-searchContributor-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "azACAPyJobRbacForSearchContributorDeploymentName": "[take(concat(parameters('prefix'), '-aca-py-job-rbac-for-searchContributor-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azOpenAiRbacForBlobContributorDeploymentName": "[take(concat(parameters('prefix'), '-aoai-rbac-for-blobContributor-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azOpenAiEmbeddingRbacForBlobContributorDeploymentName": "[take(concat(parameters('prefix'), '-aoai-orch-rbac-for-blobContributor-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azAiSearchRbacForBlobContributorDeploymentName": "[take(concat(parameters('prefix'), '-search-rbac-for-blobContributor-', parameters('location'), variables('deploymentSuffix')), 64)]",
@@ -864,7 +869,10 @@
             "azAiStudioRbacForBlobContributorDeploymentName": "[take(concat(parameters('prefix'), '-studio-rbac-for-blobContributor-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azApimRbacForOpenAiDeploymentName": "[take(concat(parameters('prefix'), '-apim-rbac-for-aoai-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azSampleAppRbacForOpenAiDeploymentName": "[take(concat(parameters('prefix'), '-sampleapp-rbac-for-aoai-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "azACABeAppRbacForOpenAiDeploymentName": "[take(concat(parameters('prefix'), '-aca-be-rbac-for-aoai-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azSampleAppRbacForSearchIndexDeploymentName": "[take(concat(parameters('prefix'), '-sampleapp-rbac-for-searchIndex-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "azACABeAppRbacForSearchIndexDeploymentName": "[take(concat(parameters('prefix'), '-aca-be-rbac-for-searchIndex-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "azACAPyJobRbacForSearchIndexDeploymentName": "[take(concat(parameters('prefix'), '-aca-py-job-rbac-for-searchIndex-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "adfOnYourDataRbacForBlobContributorDeploymentName": "[take(concat(parameters('prefix'), '-adf-rbac-for-blobContributor-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "adfOnYourDataRbacForSearchContributorDeploymentName": "[take(concat(parameters('prefix'), '-adf-rbac-for-searchContributor-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "adfOnYourDataRbacForOpenAiDeploymentName": "[take(concat(parameters('prefix'), '-adf-rbac-for-aoai-', parameters('location'), variables('deploymentSuffix')), 64)]",
@@ -888,6 +896,7 @@
             "azVideoIndexerDeploymentName": "[take(concat(parameters('prefix'), '-videoIndexer-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "rgCosmosRbacDeploymentName": "[take(concat(parameters('prefix'), '-cosmos-rbac-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "rgStudioCosmosRbacDeploymentName": "[take(concat(parameters('prefix'), '-studio-cosmos-rbac-', parameters('location'), variables('deploymentSuffix')), 64)]",
+            "rgACABeCosmosRbacDeploymentName": "[take(concat(parameters('prefix'), '-studio-cosmos-rbac-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "azVideoIndexerRbacForBlobOwnerDeploymentName": "[take(concat(parameters('prefix'), '-videoIndexer-rbac-for-blobOwner-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "acaevDeploymentName": "[take(concat(parameters('prefix'), '-acaev-', parameters('location'), variables('deploymentSuffix')), 64)]",
             "containerAppDeploymentName": "[take(concat(parameters('prefix'), '-aca-', parameters('location'), variables('deploymentSuffix')), 64)]"
@@ -924,6 +933,8 @@
             "adfOnYourDataName": "[concat(parameters('prefix'), '-', parameters('location'), '-azdf')]",
             "apimName": "[concat(parameters('prefix'), '-', parameters('apimLocation'), '-apim')]",
             "appName": "[concat(parameters('prefix'), '-', parameters('location'), '-wa')]",
+            "acaBeAppName": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), 'be'), 23))]",
+            "acaPyJobAppName": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), 'pyjob'), 23))]",
             "videoIndexerName": "[concat(parameters('prefix'), '-', parameters('location'), '-aivideo')]",
             "keyVaultName": "[take(concat(parameters('prefix'), '-', parameters('location'), '-kv'), 23)]"
         },
@@ -938,6 +949,8 @@
             "aoaiOrchestratorResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.CognitiveServices/accounts/', variables('resourceNames').aoaiOrchestratorName)]",
             "apimResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.ApiManagement/service/', variables('resourceNames').apimName)]",
             "appResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').appRgName, '/providers/Microsoft.Web/sites/', variables('resourceNames').appName)]",
+            "containerAppResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.App/containerapps/', variables('resourceNames').acaBeAppName)]",
+            "containerAppPyJobResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.App/containerapps/', variables('resourceNames').acaPyJobAppName)]",
             "videoIndexerResourceId": "[concat(subscription().id, '/resourceGroups/', variables('resourceNames').rgName, '/providers/Microsoft.VideoIndexer/accounts/', variables('resourceNames').videoIndexerName)]"
         },
         "apiVersions": {
@@ -950,6 +963,7 @@
             "azAiStudio": "2024-07-01-preview",
             "azureAiSearch": "2022-09-01",
             "webSites": "2021-02-01",
+            "aca": "2024-03-01",
             "videoIndexer": "2024-01-01"
         },
         // Endpoint references
@@ -2081,7 +2095,7 @@
         },
         // Retrieving objectId of the AI Studio System Identity
         {
-            "condition": "[and(equals(parameters('studioSystemIdentity'), 'Yes'), equals(parameters('aiSystemIdentity'), 'Yes'), equals(parameters('stRbacAuthz'), 'Yes'))]",
+            "condition": "[and(equals(parameters('studioSystemIdentity'), 'Yes'), equals(parameters('aiUseCaseSelection'), 'avatar'))]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2022-09-01",
             "name": "[variables('deploymentNames').rgAiStudioObjectIdDeploymentName]",
@@ -2153,6 +2167,58 @@
                     },
                     "apiVersion": {
                         "value": "[variables('apiVersions').webSites]"
+                    }
+                }
+            }
+        },
+        // Retrieving objectId of the ACA Backend app System Identity
+        {
+            "condition": "[and(equals(parameters('aiUseCaseSelection'), 'avatar'), equals(parameters('acaSystemIdentity'), 'Yes'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('deploymentNames').rgAzureACABEObjectIdDeploymentName]",
+            "resourceGroup": "[variables('resourceNames').rgName]",
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').containerAppDeploymentName)]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('templateUris').rgAzureObjectId]"
+                },
+                "parameters": {
+                    "resourceId": {
+                        "value": "[variables('resourceIds').containerAppResourceId]"
+                    },
+                    "apiVersion": {
+                        "value": "[variables('apiVersions').aca]"
+                    }
+                }
+            }
+        },
+        // Retrieving objectId of the ACA Python job System Identity
+        {
+            "condition": "[and(equals(parameters('aiUseCaseSelection'), 'avatar'), equals(parameters('acaSystemIdentity'), 'Yes'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('deploymentNames').rgAzureACAPYJobObjectIdDeploymentName]",
+            "resourceGroup": "[variables('resourceNames').rgName]",
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').containerAppDeploymentName)]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('templateUris').rgAzureObjectId]"
+                },
+                "parameters": {
+                    "resourceId": {
+                        "value": "[variables('resourceIds').containerAppPyJobResourceId]"
+                    },
+                    "apiVersion": {
+                        "value": "[variables('apiVersions').aca]"
                     }
                 }
             }
@@ -2240,6 +2306,35 @@
                     },
                     "principalId": {
                         "value": "[if(and(equals(parameters('studioSystemIdentity'), 'Yes'), equals(parameters('kvRbacAuthZ'), 'Yes')), reference(variables('deploymentNames').rgAiSTudioObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
+                    }
+                }
+            }
+        },
+        // Creating Role Assignment for ACA Backend App on Key Vault for Key Vault Secrets User
+        {
+            "condition": "[and(equals(parameters('acaSystemIdentity'), 'Yes'), equals(parameters('kvRbacAuthZ'), 'Yes'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('deploymentNames').azACABeRbacForKvSecretDeploymentName]",
+            "resourceGroup": "[variables('resourceNames').rgName]",
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').rgAzureACABEObjectIdDeploymentName)]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('templateUris').rgRbacTemplateUri]"
+                },
+                "parameters": {
+                    "roleDefinitionId": {
+                        "value": "4633458b-17de-408a-b874-0445c86b69e6"
+                    },
+                    "principalType": {
+                        "value": "ServicePrincipal"
+                    },
+                    "principalId": {
+                        "value": "[if(and(equals(parameters('acaSystemIdentity'), 'Yes'), equals(parameters('kvRbacAuthZ'), 'Yes')), reference(variables('deploymentNames').rgAzureACABEObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
                     }
                 }
             }
@@ -2808,6 +2903,156 @@
                     },
                     "principalId": {
                         "value": "[if(and(not(equals(parameters('aiSampleAppDeployment'), 'No')), equals(parameters('aiSearchRbacAuthz'), 'Yes')), reference(variables('deploymentNames').rgAzureWebAppObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
+                    }
+                }
+            }
+        },
+        // Creating Role Assignment for ACA Backend App  on AOAI using Cognitive Services Open AI Contributor role
+        {
+            "condition": "[and(equals(parameters('aiRbacAuthz'), 'Yes'), equals(parameters('aiUseCaseSelection'), 'avatar'), equals(parameters('acaSystemIdentity'), 'Yes'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('deploymentNames').azACABeAppRbacForOpenAiDeploymentName]",
+            "resourceGroup": "[variables('resourceNames').rgName]",
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureOpenAiDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').rgAzureACABEObjectIdDeploymentName)]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('templateUris').rgRbacTemplateUri]"
+                },
+                "parameters": {
+                    "roleDefinitionId": {
+                        "value": "a001fd3d-188f-4b5d-821b-7da978bf7442"
+                    },
+                    "principalType": {
+                        "value": "ServicePrincipal"
+                    },
+                    "principalId": {
+                        "value": "[if(and(equals(parameters('aiRbacAuthz'), 'Yes'), equals(parameters('aiUseCaseSelection'), 'avatar'), equals(parameters('acaSystemIdentity'), 'Yes')), reference(variables('deploymentNames').rgAzureACABEObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
+                    }
+                }
+            }
+        },
+        // Creating Role Assignment for ACA Backend App on AI Search using Search Contributor role
+        {
+            "condition": "[and(equals(parameters('aiUseCaseSelection'), 'avatar'), equals(parameters('acaSystemIdentity'), 'Yes'), equals(parameters('aiSearchRbacAuthz'), 'Yes'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('deploymentNames').azACABeAppRbacForSearchContributorDeploymentName]",
+            "resourceGroup": "[variables('resourceNames').rgName]",
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureAiSearchDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').rgAzureACABEObjectIdDeploymentName)]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('templateUris').rgRbacTemplateUri]"
+                },
+                "parameters": {
+                    "roleDefinitionId": {
+                        "value": "7ca78c08-252a-4471-8644-bb5ff32d4ba0"
+                    },
+                    "principalType": {
+                        "value": "ServicePrincipal"
+                    },
+                    "principalId": {
+                        "value": "[if(and(equals(parameters('aiUseCaseSelection'), 'avatar'), equals(parameters('acaSystemIdentity'), 'Yes'), equals(parameters('aiSearchRbacAuthz'), 'Yes'))), reference(variables('deploymentNames').rgAzureACABEObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
+                    }
+                }
+            }
+        },
+        // Creating Role Assignment for ACA Backend App on AI Search using Search Index Data Reader role
+        {
+            "condition": "[and(equals(parameters('aiUseCaseSelection'), 'avatar'), equals(parameters('acaSystemIdentity'), 'Yes'), equals(parameters('aiSearchRbacAuthz'), 'Yes'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('deploymentNames').azACABeAppRbacForSearchIndexDeploymentName]",
+            "resourceGroup": "[variables('resourceNames').rgName]",
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureAiSearchDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').rgAzureACABEObjectIdDeploymentName)]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('templateUris').rgRbacTemplateUri]"
+                },
+                "parameters": {
+                    "roleDefinitionId": {
+                        "value": "1407120a-92aa-4202-b7e9-c0e197c71c8f"
+                    },
+                    "principalType": {
+                        "value": "ServicePrincipal"
+                    },
+                    "principalId": {
+                        "value": "[if(and(equals(parameters('aiUseCaseSelection'), 'avatar'), equals(parameters('acaSystemIdentity'), 'Yes'), equals(parameters('aiSearchRbacAuthz'), 'Yes'))), reference(variables('deploymentNames').rgAzureACABEObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
+                    }
+                }
+            }
+        },
+        // Creating Role Assignment for ACA Python Job on AI Search using Search Contributor role
+        {
+            "condition": "[and(equals(parameters('aiUseCaseSelection'), 'avatar'), equals(parameters('acaSystemIdentity'), 'Yes'), equals(parameters('aiSearchRbacAuthz'), 'Yes'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('deploymentNames').azACAPyJobRbacForSearchContributorDeploymentName]",
+            "resourceGroup": "[variables('resourceNames').rgName]",
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureAiSearchDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').rgAzureACAPYJobObjectIdDeploymentName)]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('templateUris').rgRbacTemplateUri]"
+                },
+                "parameters": {
+                    "roleDefinitionId": {
+                        "value": "7ca78c08-252a-4471-8644-bb5ff32d4ba0"
+                    },
+                    "principalType": {
+                        "value": "ServicePrincipal"
+                    },
+                    "principalId": {
+                        "value": "[if(and(equals(parameters('aiUseCaseSelection'), 'avatar'), equals(parameters('acaSystemIdentity'), 'Yes'), equals(parameters('aiSearchRbacAuthz'), 'Yes'))), reference(variables('deploymentNames').rgAzureACAPYJobObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
+                    }
+                }
+            }
+        },
+        // Creating Role Assignment for ACA Python Job on AI Search using Search Index Data Reader role
+        {
+            "condition": "[and(equals(parameters('aiUseCaseSelection'), 'avatar'), equals(parameters('acaSystemIdentity'), 'Yes'), equals(parameters('aiSearchRbacAuthz'), 'Yes'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('deploymentNames').azACAPyJobRbacForSearchIndexDeploymentName]",
+            "resourceGroup": "[variables('resourceNames').rgName]",
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureAiSearchDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').rgAzureACAPYJobObjectIdDeploymentName)]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('templateUris').rgRbacTemplateUri]"
+                },
+                "parameters": {
+                    "roleDefinitionId": {
+                        "value": "1407120a-92aa-4202-b7e9-c0e197c71c8f"
+                    },
+                    "principalType": {
+                        "value": "ServicePrincipal"
+                    },
+                    "principalId": {
+                        "value": "[if(and(equals(parameters('aiUseCaseSelection'), 'avatar'), equals(parameters('acaSystemIdentity'), 'Yes'), equals(parameters('aiSearchRbacAuthz'), 'Yes'))), reference(variables('deploymentNames').rgAzureACAPYJobObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
                     }
                 }
             }
@@ -3402,6 +3647,36 @@
                     },
                     "principalId": {
                         "value": "[if(and(equals(parameters('aiUseCaseSelection'), 'avatar'), equals(parameters('studioSystemIdentity'), 'Yes')), reference(variables('deploymentNames').rgAiStudioObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
+                    },
+                    "cosmosResourceName": {
+                        "value": "[variables('resourceNames').cosmosDbName]"
+                    }
+                }
+            }
+        },
+        // Creating Cosmos Db Role Assignment for ACA Backend App on Cosmos DB using Contributor role
+        {
+            "condition": "[and(equals(parameters('aiUseCaseSelection'), 'avatar'), equals(parameters('acaSystemIdentity'), 'Yes'))]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2022-09-01",
+            "name": "[variables('deploymentNames').rgACABeCosmosRbacDeploymentName]",
+            "resourceGroup": "[variables('resourceNames').rgName]",
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').cosmosDbDeploymentName)]",
+                "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').containerAppDeploymentName)]"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "contentVersion": "1.0.0.0",
+                    "uri": "[variables('templateUris').rgCosmosRbacTemplateUri]"
+                },
+                "parameters": {
+                    "rgName": {
+                        "value": "[variables('resourceNames').rgName]"
+                    },
+                    "principalId": {
+                        "value": "[if(and(equals(parameters('aiUseCaseSelection'), 'avatar'), equals(parameters('acaSystemIdentity'), 'Yes')), reference(variables('deploymentNames').rgAzureACABEObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
                     },
                     "cosmosResourceName": {
                         "value": "[variables('resourceNames').cosmosDbName]"
