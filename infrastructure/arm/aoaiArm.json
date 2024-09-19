@@ -3022,7 +3022,7 @@
                         "value": "ServicePrincipal"
                     },
                     "principalId": {
-                        "value": "[if(and(equals(parameters('aiUseCaseSelection'), 'avatar'), equals(parameters('acaSystemIdentity'), 'Yes'), equals(parameters('aiSearchRbacAuthz'), 'Yes'))), reference(variables('deploymentNames').rgAzureACAPYJobObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
+                        "value": "[if(and(equals(parameters('aiUseCaseSelection'), 'avatar'), equals(parameters('acaSystemIdentity'), 'Yes'), equals(parameters('aiSearchRbacAuthz'), 'Yes')), reference(variables('deploymentNames').rgAzureACAPYJobObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
                     }
                 }
             }
@@ -3052,7 +3052,7 @@
                         "value": "ServicePrincipal"
                     },
                     "principalId": {
-                        "value": "[if(and(equals(parameters('aiUseCaseSelection'), 'avatar'), equals(parameters('acaSystemIdentity'), 'Yes'), equals(parameters('aiSearchRbacAuthz'), 'Yes'))), reference(variables('deploymentNames').rgAzureACAPYJobObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
+                        "value": "[if(and(equals(parameters('aiUseCaseSelection'), 'avatar'), equals(parameters('acaSystemIdentity'), 'Yes'), equals(parameters('aiSearchRbacAuthz'), 'Yes')), reference(variables('deploymentNames').rgAzureACAPYJobObjectIdDeploymentName).outputs.systemIdentityId.value, '')]"
                     }
                 }
             }
