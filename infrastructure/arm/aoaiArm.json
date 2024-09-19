@@ -3101,9 +3101,9 @@
                 }
             }
         },
-        // Deploying Cosmos DB into the primary region if 'on your data' use case is being selected
+        // Deploying Cosmos DB into the primary region if 'on your data' or 'avatar' use case is being selected
         {
-            "condition": "[equals(parameters('aiUseCaseSelection'), 'onyourdata')]",
+            "condition": "[or(equals(parameters('aiUseCaseSelection'), 'onyourdata'), equals(parameters('aiUseCaseSelection'), 'avatar'))]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2022-09-01",
             "name": "[variables('deploymentNames').cosmosDbDeploymentName]",
