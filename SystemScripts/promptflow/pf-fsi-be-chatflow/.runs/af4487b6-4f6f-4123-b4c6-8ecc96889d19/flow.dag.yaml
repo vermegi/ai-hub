@@ -1,0 +1,120 @@
+id: template_chat_flow
+name: Template Chat Flow
+inputs:
+  chat_history:
+    type: list
+    is_chat_input: false
+    is_chat_history: true
+  question:
+    type: string
+    is_chat_input: true
+outputs:
+  answer:
+    type: string
+    reference: ${chat.output}
+    is_chat_output: true
+nodes:
+- name: history_parser
+  type: llm
+  source:
+    type: code
+    path: classifier_and_history.jinja2
+  inputs:
+    deployment_name: okr35gpt35turbo
+    temperature: 0.3
+    top_p: 1
+    max_tokens: 512
+    response_format:
+      type: text
+    question: ${inputs.question}
+    chat_history: ${inputs.chat_history}
+  provider: AzureOpenAI
+  connection: okr35swedencentralazopenai
+  api: chat
+  module: promptflow.tools.aoai
+  activate:
+    when: ${classifier.output}
+    is: "0"
+  use_variants: false
+- name: fsi_doc_lookup
+  type: python
+  source:
+    type: package
+    tool: promptflow_vectordb.tool.common_index_lookup.search
+  inputs:
+    mlindex_content: >
+      embeddings:
+        api_base: https://okr35-swedencentral-azopenai.openai.azure.com/
+        api_type: azure
+        api_version: 2023-07-01-preview
+        batch_size: '1'
+        connection:
+          id: /subscriptions/428f039d-3898-4c0c-ac77-b1ef3f5963ba/resourceGroups/okr35-rg-swedencentral/providers/Microsoft.MachineLearningServices/workspaces/okrpj/connections/okr35swedencentralazopenai
+        connection_type: workspace_connection
+        deployment: hub-embedding-text-embedding-ada-002
+        dimension: 1536
+        kind: open_ai
+        model: text-embedding-ada-002
+        schema_version: '2'
+      index:
+        api_version: 2024-05-01-preview
+        connection:
+          id: /subscriptions/428f039d-3898-4c0c-ac77-b1ef3f5963ba/resourceGroups/okr35-rg-swedencentral/providers/Microsoft.MachineLearningServices/workspaces/okrpj/connections/okr35swedencentralazaisearch
+        connection_type: workspace_connection
+        endpoint: https://okr35-swedencentral-azaisearch.search.windows.net/
+        engine: azure-sdk
+        field_mapping:
+          content: content
+          embedding: contentVector
+          metadata: meta_json_string
+        index: woodgrove-index-ais-okr35
+        kind: acs
+        semantic_configuration_name: azureml-default
+    queries: ${history_parser.output}
+    query_type: Hybrid (vector + keyword)
+    top_k: 5
+  use_variants: false
+- name: classifier
+  type: llm
+  source:
+    type: code
+    path: classifier.jinja2
+  inputs:
+    deployment_name: gpt-4o-mini
+    temperature: 0.3
+    top_p: 1
+    max_tokens: 200
+    response_format:
+      type: text
+    message: ${inputs.question}
+    chat_history: ${inputs.chat_history}
+  provider: AzureOpenAI
+  connection: okr35swedencentralazopenai
+  api: chat
+  module: promptflow.tools.aoai
+  use_variants: false
+- name: chat
+  type: llm
+  source:
+    type: code
+    path: chat.jinja2
+  inputs:
+    deployment_name: gpt-4o-mini
+    temperature: 0.3
+    top_p: 1
+    max_tokens: 1024
+    response_format:
+      type: text
+    question: ${inputs.question}
+    sources: ${fsi_doc_lookup.output}
+  provider: AzureOpenAI
+  connection: okr35swedencentralazopenai
+  api: chat
+  module: promptflow.tools.aoai
+  activate:
+    when: dummy
+    is: dummy
+  use_variants: false
+node_variants: {}
+environment:
+  python_requirements_txt: requirements.txt
