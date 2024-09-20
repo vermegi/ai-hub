@@ -6,13 +6,9 @@ import os
 class ConversationOrchestrator:
     def __init__(self):
         pass 
-    def run_user_query(self):
+    
+    def run_user_query(self, user_question):
         pass
-
-    def update_conversation_history(self):
-        pass
-
-
 
 class PF_Orchestrator(ConversationOrchestrator):
     def __init__(self):
@@ -59,10 +55,3 @@ class PF_Orchestrator(ConversationOrchestrator):
                     "answer": assistant_answer,
             }
         })
-
-        self.prune_history()
-    
-
-    def prune_history(self):
-        pass
-                    
