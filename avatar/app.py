@@ -2,7 +2,6 @@
 # Licensed under the MIT license.
 
 import azure.cognitiveservices.speech as speechsdk
-import copy
 import datetime
 import html
 import json
@@ -16,7 +15,6 @@ import traceback
 import uuid
 from flask import Flask, Response, render_template, request
 from azure.identity import DefaultAzureCredential
-from conversation_orchestrator import PF_Orchestrator
 
 # Create the Flask app
 app = Flask(__name__, template_folder='.')
@@ -32,6 +30,8 @@ ice_server_url = os.environ.get('ICE_SERVER_URL') # The ICE URL, e.g. turn:x.x.x
 ice_server_url_remote = os.environ.get('ICE_SERVER_URL_REMOTE') # The ICE URL for remote side, e.g. turn:x.x.x.x:3478. This is only required when the ICE address for remote side is different from local side.
 ice_server_username = os.environ.get('ICE_SERVER_USERNAME') # The ICE username
 ice_server_password = os.environ.get('ICE_SERVER_PASSWORD') # The ICE password
+orchestrator_module_name = os.environ.get("ORCHESTRATOR_MODULE") or 'conversation_orchestrator'
+orchestrator_class_name = os.environ.get("ORCHESTRATOR_CLASS") or 'PF_Orchestrator'
 
 # Const variables
 default_tts_voice = 'en-US-JennyMultilingualV2Neural' # Default TTS voice
@@ -43,6 +43,9 @@ quick_replies = [ 'Let me take a look.', 'Let me check.', 'One moment, please.' 
 client_contexts = {} # Client contexts
 speech_token = None # Speech token
 ice_token = None # ICE token
+
+module = __import__(orchestrator_module_name) 
+orchestrator_class = getattr(module, orchestrator_class_name) 
 
 # The default route, which shows the default web page (basic.html)
 @app.route("/")
@@ -293,7 +296,7 @@ def handleUserQuery(user_query: str, client_id: uuid.UUID):
     global client_contexts
     client_context = client_contexts[client_id]
     if client_context['orchestrator'] is None:
-        client_context['orchestrator'] = PF_Orchestrator() # should implement dependency injection somehow
+        client_context['orchestrator'] = orchestrator_class()
     orchestrator = client_context['orchestrator']
 
     if enable_quick_reply:
