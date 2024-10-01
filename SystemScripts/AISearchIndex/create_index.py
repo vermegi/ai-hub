@@ -1,6 +1,5 @@
 #Import necessary lirbaries
 import os
-from dotenv import dotenv_values
 from azure.storage.blob import BlobServiceClient, ContainerClient, BlobClient
 from pathlib import Path
 from azure.identity import DefaultAzureCredential
@@ -34,39 +33,35 @@ from azure.search.documents.indexes.models import (
     VectorSearchProfile
 )
 
-# specify the name of the .env file name 
-env_name = "azure.env" # change to your own .env file name
-config = dotenv_values(env_name)
-
 # Azure OpenAI Service details
-openai_type = config["openai_api_type"]
-openai_api_base = config['openai_api_base']
-openai_api_version = config['openai_api_version']
-openai_deployment_completion = config["openai_deployment_completion"]
-openai_model_completion = config["openai_model_completion"]
-openai_deployment_embedding = config["openai_deployment_embedding"]
-openai_model_embedding = config["openai_model_embedding"]
+openai_type = os.environ["openai_api_type"]
+openai_api_base = os.environ['openai_api_base']
+openai_api_version = os.environ['openai_api_version']
+openai_deployment_completion = os.environ["openai_deployment_completion"]
+openai_model_completion = os.environ["openai_model_completion"]
+openai_deployment_embedding = os.environ["openai_deployment_embedding"]
+openai_model_embedding = os.environ["openai_model_embedding"]
 EMBEDDING_LENGTH = 1536
 
 # Storage Account Service details
-blob_conn_string = config["BLOB_CONNECTION_STRING_MSI"]
-blob_url = config["STORAGE_URL"]
-blob_container = SearchIndexerDataContainer(name=config["BLOB_CONTAINER_NAME"])
-storage_name = config["STORAGE_ACCOUNT_NAME"]
+blob_conn_string = os.environ["BLOB_CONNECTION_STRING_MSI"]
+blob_url = os.environ["STORAGE_URL"]
+blob_container = SearchIndexerDataContainer(name=os.environ["BLOB_CONTAINER_NAME"])
+storage_name = os.environ["STORAGE_ACCOUNT_NAME"]
 current_dir = Path(os.getcwd())
 filepath = current_dir.parent / "data" / "Woodgrove Asset Management  - Prospective of Asset Management Funds.pdf"
 blob_name = os.path.basename(filepath)
 
 # Azure AI Search Service details
-aisearch_endpoint = config["aisearch_endpoint"]
-index_name = config["aisearch_index_name"] # Desired name of index -- does not need to exist already
+aisearch_endpoint = os.environ["aisearch_endpoint"]
+index_name = os.environ["aisearch_index_name"] # Desired name of index -- does not need to exist already
 skillset_name = f"{index_name}-skillset"
 indexer_name = f"{index_name}-indexer"  
 vectorConfigName = "contentVector_config"
 data_source_name = f"{storage_name}-storageblob-connection"
 
 # Identity
-uami_id = config["UAMI_RESOURCE_ID"]
+uami_id = os.environ["UAMI_RESOURCE_ID"]
 
 
 def uploadToBlob(blob_client):

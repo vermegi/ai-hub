@@ -17,9 +17,9 @@ class ConversationOrchestrator:
 class PF_Orchestrator(ConversationOrchestrator):
     def __init__(self):
         
-        self.pf_endpoint_name=os.environ.get("PF_ENDPOINT_NAME")
-        self.pf_deployment_name=os.environ.get("PF_DEPLOYMENT_NAME")
-        self.pf_endpoint_key=os.environ.get("PF_ENDPOINT_KEY")
+        self.pf_endpoint_name="https://okr35-be-flow-xxhaw.swedencentral.inference.ml.azure.com/score"
+        self.pf_deployment_name="blue"
+        self.pf_endpoint_key="Yc4pkfpN192Eiy8rSKbhOXLPyibkTHUr"
         
         if self.pf_endpoint_name is None or self.pf_endpoint_key is None:
              raise Exception("Prompt Flow end_point or key not provided!")
