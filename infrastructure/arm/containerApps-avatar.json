@@ -95,7 +95,7 @@
                                 "template": {
                                     "containers": [
                                         {
-                                            "image": "belstarr/ai-search-api:v0.0.9",
+                                            "image": "belstarr/ai-search-api:v0.0.20",
                                             "name": "ai-search-api-container",
                                             "resources": {
                                                 "cpu": 0.25,
@@ -135,7 +135,7 @@
                                 "template": {
                                     "containers": [
                                         {
-                                            "image": "belstarr/ai-search-api:v0.0.9",
+                                            "image": "belstarr/ai-search-api:v0.0.20",
                                             "name": "ai-search-api-container",
                                             "resources": {
                                                 "cpu": 0.25,
