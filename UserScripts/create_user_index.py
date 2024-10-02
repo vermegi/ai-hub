@@ -66,9 +66,6 @@ indexer_name = f"{index_name}-indexer"
 vectorConfigName = "contentVector_config"
 data_source_name = f"{storage_name}-storageblob-connection"
 
-# Identity
-uami_id = config["UAMI_RESOURCE_ID"]
-
 
 def uploadToBlob(blob_client):
     try:
