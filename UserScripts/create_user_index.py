@@ -60,7 +60,7 @@ blob_name = os.path.basename(filepath)
 
 # Azure AI Search Service details
 aisearch_endpoint = config["aisearch_endpoint"]
-index_name = config["aisearch_index_name"] # Desired name of index -- does not need to exist already
+index_name = input("Please enter a new or existing index name: ") # Desired name of index -- does not need to exist already
 skillset_name = f"{index_name}-skillset"
 indexer_name = f"{index_name}-indexer"  
 vectorConfigName = "contentVector_config"
@@ -74,8 +74,8 @@ def uploadToBlob(blob_client):
     try:
         with open(filepath, "rb") as data:  
             blob_client.upload_blob(data, overwrite=True)
-    except error as e:
-        print("An error occurred when upoloading the file to the storage account:", e)
+    except Exception as OSError:
+        print("An error occurred when upoloading the file to the storage account:", OSError)
 
     print(f"File {filepath} uploaded to {blob_container}/{blob_name} successfully.")
 
@@ -233,20 +233,18 @@ def createIndexer(indexer_client):
 
 if __name__ == "__main__":
     try:
-
-        print(f"The name of the storage account is {blob_conn_string}")
         credential = DefaultAzureCredential() #Needs to be changed to managed identity credential when running inside the container app
         blob_service_client = BlobServiceClient(account_url=blob_url, credential=credential)  
         container_client = blob_service_client.get_container_client(blob_container)  
         blob_client = container_client.get_blob_client(blob_name)
         index_client = SearchIndexClient(aisearch_endpoint, credential)
         indexer_client = SearchIndexerClient(aisearch_endpoint, credential)
-
+        
         uploadToBlob(blob_client)
         createDataSourceConnection(indexer_client)
         createIndex(index_client)
         createSkillset(indexer_client)
         createIndexer(indexer_client)
 
-    except Exception as error:
-        raise error
+    except Exception as OSError:
+        raise OSError
