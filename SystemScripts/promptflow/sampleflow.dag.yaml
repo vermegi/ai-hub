@@ -20,7 +20,7 @@ nodes:
     type: code
     path: classifier.jinja2
   inputs:
-    deployment_name: gpt4o-gpt-4o
+    deployment_name: [aoai_chat_deployment_name]
     temperature: 0.3
     top_p: 1
     max_tokens: 200
@@ -29,7 +29,7 @@ nodes:
     chat_history: ${inputs.chat_history}
     message: ${inputs.question}
   provider: AzureOpenAI
-  connection: okr35bamiswedencentralazopenai
+  connection: [aistudio_aoai_connection_name]
   api: chat
   module: promptflow.tools.aoai
   use_variants: false
@@ -39,7 +39,7 @@ nodes:
     type: code
     path: classifier_and_history.jinja2
   inputs:
-    deployment_name: gpt4o-gpt-4o
+    deployment_name: [aoai_chat_deployment_name]
     temperature: 0.3
     top_p: 1
     max_tokens: 512
@@ -48,7 +48,7 @@ nodes:
     question: ${inputs.question}
     chat_history: ${inputs.chat_history}
   provider: AzureOpenAI
-  connection: okr35bamiswedencentralazopenai
+  connection: [aistudio_aoai_connection_name]
   api: chat
   module: promptflow.tools.aoai
   activate:
@@ -63,30 +63,30 @@ nodes:
   inputs:
     mlindex_content: >
       embeddings:
-        api_base: https://okr35-bami-swedencentral-azopenai.openai.azure.com/
-        api_type: azure
-        api_version: 2023-07-01-preview
+        api_base: [aoai_api_base]
+        api_type: [aoai_api_type]
+        api_version: [aoai_api_version]
         batch_size: '1'
         connection:
-          id: /subscriptions/84045d88-daaf-4bb6-ba53-e7164132d1b1/resourceGroups/okr35-bami-rg-swedencentral/providers/Microsoft.MachineLearningServices/workspaces/okr35-be-flow/connections/okr35bamiswedencentralazopenai
+          id: [aistudio_aoai_connection_resourceid]
         connection_type: workspace_connection
-        deployment: text-embedding-ada-002
+        deployment: [aoai_embedding_deployment_name]
         dimension: 1536
         kind: open_ai
-        model: text-embedding-ada-002
+        model: [aoai_embedding_model_name]
         schema_version: '2'
       index:
         api_version: 2024-05-01-preview
         connection:
-          id: /subscriptions/84045d88-daaf-4bb6-ba53-e7164132d1b1/resourceGroups/okr35-bami-rg-swedencentral/providers/Microsoft.MachineLearningServices/workspaces/okr35-be-flow/connections/okr35-search
+          id: [aistudio_search_connection_resourceid]
         connection_type: workspace_connection
-        endpoint: https://okr35-bami-swedencentral-azaisearch.search.windows.net
+        endpoint: [aisearch_endpoint]
         engine: azure-sdk
         field_mapping:
           content: content
           embedding: contentVector
           metadata: filepath
-        index: woodgrove-sample-manual-index-new
+        index: [index_name]
         kind: acs
         semantic_configuration_name: azureml-default
     queries: ${history_parser.output}
@@ -99,7 +99,7 @@ nodes:
     type: code
     path: chat.jinja2
   inputs:
-    deployment_name: gpt4o-gpt-4o
+    deployment_name: [aoai_chat_deployment_name]
     temperature: 0.3
     top_p: 1
     max_tokens: 1024
@@ -108,7 +108,7 @@ nodes:
     question: ${inputs.question}
     sources: ${fsi_doc_lookup.output}
   provider: AzureOpenAI
-  connection: okr35bamiswedencentralazopenai
+  connection: [aistudio_aoai_connection_name]
   api: chat
   module: promptflow.tools.aoai
   activate:
