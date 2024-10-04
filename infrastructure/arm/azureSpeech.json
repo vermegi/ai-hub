@@ -217,15 +217,15 @@
     "outputs": {
         "speechSubscriptionKey": {
             "type": "string",
-            "value": "[reference(variables('deploymentName')).outputs.speechSubscriptionKey.value]"
+            "value": "[reference('azureSpeech').outputs.speechSubscriptionKey.value]"
           },
           "speechUrl": {
             "type": "string",
-            "value": "[reference(variables('deploymentName')).outputs.speechUrl.value]"
+            "value": "[reference('azureSpeech').outputs.speechUrl.value]"
           },
           "speechResourceUrl": {
             "type": "string",
-            "value": "[reference(variables('deploymentName')).outputs.speechResourceUrl.value]"
+            "value": "[reference('azureSpeech').outputs.speechResourceUrl.value]"
           }
         }
 }
