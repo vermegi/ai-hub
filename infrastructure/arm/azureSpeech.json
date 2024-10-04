@@ -203,15 +203,15 @@
     "outputs": {
         "speechSubscriptionKey": {
             "type": "string",
-            "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts',variables('name-compliant-azureSpeech')), '2023-05-01').key1]"
+            "value": "[listKeys(resourceId(parameters('rgName'), 'Microsoft.CognitiveServices/accounts/',variables('name-compliant-azureSpeech')), '2023-05-01').key1]"
           },
           "speechUrl": {
             "type": "string",
-            "value": "[reference(resourceId('Microsoft.CognitiveServices/accounts', variables('name-compliant-azureSpeech')), '2022-09-01', 'Full').properties.endpoint]"
+            "value": "[reference(resourceId(parameters('rgName'), 'Microsoft.CognitiveServices/accounts', variables('name-compliant-azureSpeech')), '2022-09-01', 'Full').properties.endpoint]"
           },
           "speechResourceUrl": {
             "type": "string",
-            "value": "[reference(resourceId('Microsoft.CognitiveServices/accounts', variables('name-compliant-azureSpeech')), '2022-09-01', 'Full').id]"
+            "value": "[reference(resourceId(parameters('rgName'), 'Microsoft.CognitiveServices/accounts', variables('name-compliant-azureSpeech')), '2022-09-01', 'Full').id]"
           }
         }
 }
