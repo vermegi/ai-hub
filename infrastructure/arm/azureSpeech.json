@@ -195,7 +195,21 @@
                                 ]
                             }
                         }
-                    ]
+                    ],
+                    "outputs": {
+                        "speechSubscriptionKey": {
+                            "type": "string",
+                            "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts/',variables('name-compliant-azureSpeech')), '2023-05-01').key1]"
+                          },
+                          "speechUrl": {
+                            "type": "string",
+                            "value": "[reference(resourceId('Microsoft.CognitiveServices/accounts', variables('name-compliant-azureSpeech')), '2022-09-01', 'Full').properties.endpoint]"
+                          },
+                          "speechResourceUrl": {
+                            "type": "string",
+                            "value": "[reference(resourceId('Microsoft.CognitiveServices/accounts', variables('name-compliant-azureSpeech')), '2022-09-01', 'Full').id]"
+                          }
+                        }                 
                 }
             }
         }
@@ -203,15 +217,15 @@
     "outputs": {
         "speechSubscriptionKey": {
             "type": "string",
-            "value": "[listKeys(resourceId(subscription().subscriptionId, parameters('rgName'), 'Microsoft.CognitiveServices/accounts/',variables('name-compliant-azureSpeech')), '2023-05-01').key1]"
+            "value": "[reference(variables('deploymentName')).outputs.speechSubscriptionKey.value]"
           },
           "speechUrl": {
             "type": "string",
-            "value": "[reference(resourceId(subscription().subscriptionId, parameters('rgName'), 'Microsoft.CognitiveServices/accounts', variables('name-compliant-azureSpeech')), '2022-09-01', 'Full').properties.endpoint]"
+            "value": "[reference(variables('deploymentName')).outputs.speechUrl.value]"
           },
           "speechResourceUrl": {
             "type": "string",
-            "value": "[reference(resourceId(subscription().subscriptionId, parameters('rgName'), 'Microsoft.CognitiveServices/accounts', variables('name-compliant-azureSpeech')), '2022-09-01', 'Full').id]"
+            "value": "[reference(variables('deploymentName')).outputs.speechResourceUrl.value]"
           }
         }
 }
