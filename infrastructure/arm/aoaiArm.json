@@ -3541,7 +3541,8 @@
                     "dependsOn": [
                         "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azMonDeploymentName)]",
                         "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').acaevDeploymentName)]",
-                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').managedIdentityDeploymentName)]"
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').managedIdentityDeploymentName)]",
+                        "[concat('Microsoft.Resources/deployments/', variables('deploymentNames').azureSpeechDeploymentName)]"
                     ],
                     "properties": {
                         "mode": "Incremental",
