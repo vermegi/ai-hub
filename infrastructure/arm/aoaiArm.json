@@ -3564,6 +3564,66 @@
                             },
                             "acaSystemIdentity": {
                                 "value": "[parameters('acaSystemIdentity')]"
+                            },
+                            "speechRegion": {
+                                "value": "[parameters('location')]"
+                            },
+                            "speechSubscriptionKey": {
+                                "value": "[reference(variables('deploymentNames').azureSpeechDeploymentName).outputs.speechSubscriptionKey.value]"
+                            },
+                            "speechUrl": {
+                                "value": "[reference(variables('deploymentNames').azureSpeechDeploymentName).outputs.speechUrl.value]"
+                            },
+                            "speechResourceUrl": {
+                                "value": "[reference(variables('deploymentNames').azureSpeechDeploymentName).outputs.speechResourceUrl.value]"
+                            },
+                            "pfEndpointName": {
+                                "value": "dummy"
+                            },
+                            "pfDeploymentName": {
+                                "value": "dummy"
+                            },
+                            "pfEndpointKey": {
+                                "value": "dummy"
+                            },
+                            "azureOpenAIEndpoint": {
+                                "value": "[variables('aoaiEndpoint1')]"
+                            },
+                            "azureOpenAIModelDeployment": {
+                                "value": "[concat(variables('onYourDataSampleVariables').gptDeploymentName, '-', variables('onYourDataSampleVariables').gptModelName)]"
+                            },
+                            "storageUrl": {
+                                "value": "[variables('blobStorageEndpoint')]"
+                            },
+                            "blobConnectionstringMsi": {
+                                "value": "[parameters('blobConnectionstringMsi')]"
+                            },
+                            "blobContainerName": {
+                                "value": "[parameters('blobContainerName')]"
+                            },
+                            "openaiDeploymentEmbedding": {
+                                "value": "[concat(variables('onYourDataSampleVariables').embeddingDeploymentName, '-', variables('onYourDataSampleVariables').embeddingModelName)]"
+                            },
+                            "azureOpenAIEmbeddingName": {
+                                "value": "[concat(variables('onYourDataSampleVariables').embeddingDeploymentName, '-', variables('onYourDataSampleVariables').embeddingModelName)]"
+                            },
+                            "azureOpenAIModelName": {
+                                "value": "[variables('onYourDataSampleVariables').gptModelName]"
+                            },
+                            "openaiApiVersion": {
+                                "value": "[parameters('openaiApiVersion')]"
+                            },
+                            "searchServiceName": {
+                                "value": "[variables('resourceNames').azureAiSearchName]"
+                            },
+                            "searchIndexName": {
+                                "value": "[variables('resourceNames').azureAiSearchIndexName]"
+                            },
+                            "aiSearchServiceEndpoint": {
+                                "value": "[variables('azureAiSearchEndpoint')]"
+                            },
+                            "storageAccountName": {
+                                "value": "[variables('resourceNames').storageAccountName]"
                             }
                         }
                     }

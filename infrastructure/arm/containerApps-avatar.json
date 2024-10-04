@@ -24,10 +24,6 @@
             "type": "string",
             "defaultValue": "Consumption"
         },
-        "environmentId": {
-            "type": "string",
-            "defaultValue": ""
-        },
         "acaSystemIdentity": {
             "type": "string",
             "defaultValue": "No",
@@ -35,13 +31,97 @@
                 "Yes",
                 "No"
             ]
+        },
+        "speechRegion": {
+            "type": "string",
+            "defaultValue": "westus"
+        },
+        "speechSubscriptionKey": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "speechUrl": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "speechResourceUrl": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "pfEndpointName": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "pfDeploymentName": {
+            "type": "string",
+            "defaultValue": "blue"
+        },
+        "pfEndpointKey": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "azureOpenAIEndpoint": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "azureOpenAIModelDeployment": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "storageUrl": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "blobConnectionstringMsi": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "blobContainerName": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "openaiApiType": {
+            "type": "string",
+            "defaultValue": "azure"
+        },
+        "openaiDeploymentEmbedding": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "azureOpenAIEmbeddingName": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "azureOpenAIModelName": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "openaiApiVersion": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "searchServiceName": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "searchIndexName": {
+            "type": "string",
+            "defaultValue": "avatarindex"
+        },
+        "aiSearchServiceEndpoint": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "storageAccountName": {
+            "type": "string",
+            "defaultValue": ""
         }
     },
     "variables": {
-        "name-compliant-aca1": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), 'fe'), 23))]",
-        "name-compliant-aca2": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), 'be'), 23))]",
-        "name-compliant-aca-job1": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), 'pyjob'), 23))]",
-        "name-compliant-aca-job2": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), 'job2', uniqueString(deployment().name)), 23))]",
+        "name-compliant-aca-fe": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), 'fe'), 23))]",
+        "name-compliant-aca-be": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), 'be'), 23))]",
+        "name-compliant-aca-job-py": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), 'pyjob'), 23))]",
+        "name-compliant-aca-job-node": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), 'nodejob', uniqueString(deployment().name)), 23))]",
         "name-compliant-azMon": "[concat(parameters('prefix'), '-', parameters('location'), '-azmon')]",
         "name-compliant-acame": "[take(concat(parameters('prefix'), '-', parameters('location'), '-acame'), 23)]",
         "acaIdentity": {
@@ -74,7 +154,7 @@
                         {
                             "type": "Microsoft.App/containerapps",
                             "apiVersion": "2024-03-01",
-                            "name": "[variables('name-compliant-aca1')]",
+                            "name": "[variables('name-compliant-aca-fe')]",
                             "location": "[parameters('location')]",
                             "identity": "[if(equals(parameters('acaSystemIdentity'), 'Yes'), variables('acaIdentity'), json('null'))]",
                             "properties": {
@@ -114,7 +194,7 @@
                         {
                             "type": "Microsoft.App/containerapps",
                             "apiVersion": "2024-03-01",
-                            "name": "[variables('name-compliant-aca2')]",
+                            "name": "[variables('name-compliant-aca-be')]",
                             "location": "[parameters('location')]",
                             "identity": "[if(equals(parameters('acaSystemIdentity'), 'Yes'), variables('acaIdentity'), json('null'))]",
                             "properties": {
@@ -141,7 +221,65 @@
                                                 "cpu": 0.25,
                                                 "memory": "0.5Gi",
                                                 "ephemeralStorage": "1Gi"
-                                            }
+                                            },
+                                            "env": [
+                                                {
+                                                    "name": "SPEECH_REGION",
+                                                    "value": "[parameters('speechRegion')]"
+                                                },
+                                                {
+                                                    "name": "SPEECH_KEY",
+                                                    "value": "[parameters('speechSubscriptionKey')]"
+                                                },
+                                                {
+                                                    "name": "SPEECH_URL",
+                                                    "value": "[parameters('speechUrl')]"
+                                                },
+                                                {
+                                                    "name": "SPEECH_RESOURCE_URL ",
+                                                    "value": "[parameters('speechResourceUrl')]"
+                                                },
+                                                {
+                                                    "name": "ORCHESTRATOR_MODULE",
+                                                    "value": "conversation_orchestrator"
+                                                },
+                                                {
+                                                    "name": "ORCHESTRATOR_CLASS",
+                                                    "value": "PF_Orchestrator"
+                                                },
+                                                {
+                                                    "name": "PF_ENDPOINT_NAME",
+                                                    "value": "[parameters('pfEndpointName')]"
+                                                },
+                                                {
+                                                    "name": "PF_DEPLOYMENT_NAME ",
+                                                    "value": "[parameters('pfDeploymentName')]"
+                                                },
+                                                {
+                                                    "name": "PF_ENDPOINT_KEY",
+                                                    "value": "[parameters('pfEndpointKey')]"
+                                                },
+                                                {
+                                                    "name": "AZURE_OPENAI_ENDPOINT",
+                                                    "value": "[parameters('azureOpenAIEndpoint')]"
+                                                },
+                                                {
+                                                    "name": "AZURE_OPENAI_DEPLOYMENT_NAME",
+                                                    "value": "[parameters('azureOpenAIModelDeployment')]"
+                                                },
+                                                {
+                                                    "name": "STORAGE_URL",
+                                                    "value": "[parameters('storageUrl')]"
+                                                },
+                                                {
+                                                    "name": "BLOB_CONNECTION_STRING_MSI",
+                                                    "value": "[parameters('blobConnectionstringMsi')]"
+                                                },
+                                                {
+                                                    "name": "BLOB_CONTAINER_NAME",
+                                                    "value": "[parameters('blobContainerName')]"
+                                                }
+                                            ]
                                         }
                                     ],
                                     "scale": {
@@ -154,7 +292,7 @@
                         {
                             "type": "Microsoft.App/jobs",
                             "apiVersion": "2024-03-01",
-                            "name": "[variables('name-compliant-aca-job1')]",
+                            "name": "[variables('name-compliant-aca-job-py')]",
                             "location": "[parameters('location')]",
                             "identity": "[if(equals(parameters('acaSystemIdentity'), 'Yes'), variables('acaIdentity'), json('null'))]",
                             "properties": {
@@ -177,7 +315,65 @@
                                     "resources": {
                                       "cpu": 0.25,
                                       "memory": "0.5Gi"
-                                    }
+                                    },
+                                    "env": [
+                                        {
+                                            "name": "OPENAI_API_BASE",
+                                            "value": "[parameters('azureOpenAIEndpoint')]"
+                                        },
+                                        {
+                                            "name": "OPENAI_API_TYPE",
+                                            "value": "[parameters('openaiApiType')]"
+                                        },
+                                        {
+                                            "name": "OPENAI_DEPLOYMENT_EMBEDDING",
+                                            "value": "[parameters('openaiDeploymentEmbedding')]"
+                                        },
+                                        {
+                                            "name": "OPENAI_MODEL_EMBEDDING",
+                                            "value": "[parameters('azureOpenAIEmbeddingName')]"
+                                        },
+                                        {
+                                            "name": "OPENAI_DEPLOYMENT_COMPLETION",
+                                            "value": "[parameters('azureOpenAIModelDeployment')]"
+                                        },
+                                        {
+                                            "name": "OPENAI_MODEL_COMPLETION",
+                                            "value": "[parameters('azureOpenAIModelName')]"
+                                        },
+                                        {
+                                            "name": "OPENAI_API_VERSION",
+                                            "value": "[parameters('openaiApiVersion')]"
+                                        },
+                                        {
+                                            "name": "AISEARCH_NAME",
+                                            "value": "[parameters('searchServiceName')]"
+                                        },
+                                        {
+                                            "name": "AISEARCH_INDEX_NAME",
+                                            "value": "[parameters('searchIndexName')]"
+                                        },
+                                        {
+                                            "name": "AISEARCH_ENDPOINT",
+                                            "value": "[parameters('aiSearchServiceEndpoint')]"
+                                        },
+                                        {
+                                            "name": "STORAGE_ACCOUNT_NAME",
+                                            "value": "[parameters('storageAccountName')]"
+                                        },
+                                        {
+                                            "name": "STORAGE_URL",
+                                            "value": "[parameters('storageUrl')]"
+                                        },
+                                        {
+                                            "name": "BLOB_CONNECTION_STRING_MSI",
+                                            "value": "[parameters('blobConnectionstringMsi')]"
+                                        },
+                                        {
+                                            "name": "BLOB_CONTAINER_NAME",
+                                            "value": "[parameters('blobContainerName')]"
+                                        }
+                                    ]
                                   }
                                 ]
                               },
@@ -187,7 +383,7 @@
                           {
                             "type": "Microsoft.App/jobs",
                             "apiVersion": "2024-03-01",
-                            "name": "[variables('name-compliant-aca-job2')]",
+                            "name": "[variables('name-compliant-aca-job-node')]",
                             "location": "[parameters('location')]",
                             "identity": "[if(equals(parameters('acaSystemIdentity'), 'Yes'), variables('acaIdentity'), json('null'))]",
                             "properties": {
@@ -210,7 +406,13 @@
                                     "resources": {
                                       "cpu": 0.25,
                                       "memory": "0.5Gi"
-                                    }
+                                    },
+                                    "env": [
+                                        {
+                                            "name": "BACKEND_URI",
+                                            "value": "[reference(resourceId('Microsoft.App/containerApps', variables('name-compliant-aca-be'))).configuration.ingress.fqdn]"
+                                        }
+                                    ]
                                   }
                                 ]
                               },
