@@ -1,0 +1,120 @@
+id: template_chat_flow
+name: Template Chat Flow
+inputs:
+  chat_history:
+    type: list
+    is_chat_input: false
+    is_chat_history: true
+  question:
+    type: string
+    is_chat_input: true
+outputs:
+  answer:
+    type: string
+    reference: ${chat.output}
+    is_chat_output: true
+nodes:
+- name: classifier
+  type: llm
+  source:
+    type: code
+    path: classifier.jinja2
+  inputs:
+    deployment_name: [aoai_chat_deployment_name]
+    temperature: 0.3
+    top_p: 1
+    max_tokens: 200
+    response_format:
+      type: text
+    chat_history: ${inputs.chat_history}
+    message: ${inputs.question}
+  provider: AzureOpenAI
+  connection: [aistudio_aoai_connection_name]
+  api: chat
+  module: promptflow.tools.aoai
+  use_variants: false
+- name: history_parser
+  type: llm
+  source:
+    type: code
+    path: classifier_and_history.jinja2
+  inputs:
+    deployment_name: [aoai_chat_deployment_name]
+    temperature: 0.3
+    top_p: 1
+    max_tokens: 512
+    response_format:
+      type: text
+    question: ${inputs.question}
+    chat_history: ${inputs.chat_history}
+  provider: AzureOpenAI
+  connection: [aistudio_aoai_connection_name]
+  api: chat
+  module: promptflow.tools.aoai
+  activate:
+    when: ${classifier.output}
+    is: "0"
+  use_variants: false
+- name: fsi_doc_lookup
+  type: python
+  source:
+    type: package
+    tool: promptflow_vectordb.tool.common_index_lookup.search
+  inputs:
+    mlindex_content: >
+      embeddings:
+        api_base: [aoai_api_base]
+        api_type: [aoai_api_type]
+        api_version: [aoai_api_version]
+        batch_size: '1'
+        connection:
+          id: [aistudio_aoai_connection_resourceid]
+        connection_type: workspace_connection
+        deployment: [aoai_embedding_deployment_name]
+        dimension: 1536
+        kind: open_ai
+        model: [aoai_embedding_model_name]
+        schema_version: '2'
+      index:
+        api_version: 2024-05-01-preview
+        connection:
+          id: [aistudio_search_connection_resourceid]
+        connection_type: workspace_connection
+        endpoint: [aisearch_endpoint]
+        engine: azure-sdk
+        field_mapping:
+          content: content
+          embedding: contentVector
+          metadata: filepath
+        index: [index_name]
+        kind: acs
+        semantic_configuration_name: azureml-default
+    queries: ${history_parser.output}
+    query_type: Hybrid (vector + keyword)
+    top_k: 5
+  use_variants: false
+- name: chat
+  type: llm
+  source:
+    type: code
+    path: chat.jinja2
+  inputs:
+    deployment_name: [aoai_chat_deployment_name]
+    temperature: 0.3
+    top_p: 1
+    max_tokens: 1024
+    response_format:
+      type: text
+    question: ${inputs.question}
+    sources: ${fsi_doc_lookup.output}
+  provider: AzureOpenAI
+  connection: [aistudio_aoai_connection_name]
+  api: chat
+  module: promptflow.tools.aoai
+  activate:
+    when: dummy
+    is: dummy
+  use_variants: false
+node_variants: {}
+environment:
+  python_requirements_txt: requirements.txt
