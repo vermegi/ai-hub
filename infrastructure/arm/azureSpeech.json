@@ -203,7 +203,7 @@
     "outputs": {
         "speechSubscriptionKey": {
             "type": "string",
-            "value": "[listKeys(concat(resourceGroup().id,'/providers/','Microsoft.CognitiveServices/accounts/', variables('name-compliant-azureSpeech')), '2023-05-01').key1]"
+            "value": "[listKeys(concat(parameters('rgName'),'/providers/','Microsoft.CognitiveServices/accounts/', variables('name-compliant-azureSpeech')), '2023-05-01').key1]"
           },
           "speechUrl": {
             "type": "string",
