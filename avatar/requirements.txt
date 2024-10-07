@@ -5,3 +5,5 @@ openai
 pytz
 requests
 sseclient-py
+Flask-Session
+Flask-Session[cachelib]

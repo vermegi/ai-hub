@@ -4,14 +4,28 @@ import json
 import os
 
 class ConversationOrchestrator:
-    def __init__(self):
-        pass 
+    def __init__(self, s=None):
+        '''
+        `s` is a session state that is stored to `self.session`.
+        '''
+        self.seesion = s
     
-    def run_user_query(self, user_question):
+    def init_conversation(self):
+        '''
+        This is used to initialize `self.session`
+        '''
+        pass
+
+    def run_user_query(self, user_question: str):
+        '''
+        `run_user_query` is an iterable yielding assistant's answer tokens.
+        `user_question` is a string holding the user question to be answered.
+        Any state content should be managed within `self.session`
+        '''
         pass
 
 class PF_Orchestrator(ConversationOrchestrator):
-    def __init__(self):
+    def __init__(self, s):
         
         self.pf_endpoint_name=os.environ.get("PF_ENDPOINT_NAME")
         self.pf_deployment_name=os.environ.get("PF_DEPLOYMENT_NAME")
@@ -21,14 +35,21 @@ class PF_Orchestrator(ConversationOrchestrator):
              raise Exception("Prompt Flow end_point or key not provided!")
         
         self.headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ self.pf_endpoint_key),"Accept": "text/event-stream, application/json"}
-        self.history = []
+        
+        if s is None:
+            raise Exception("Session is required")
+        # self.session = s
+        super().__init__(s)
+        self.init_conversation()  
     
-    
+    def init_conversation(self):
+        self.session['history']=[]
+        
     def run_user_query(self, user_question):             
         
         body = {
             "question": user_question,
-            "chat_history": self.history,
+            "chat_history": self.session['history'],
         }
 
         response = requests.post(self.pf_endpoint_name, json=body, headers=self.headers, stream=True)
@@ -47,7 +68,7 @@ class PF_Orchestrator(ConversationOrchestrator):
         else:
              pass
         
-        self.history.append({
+        self.session['history'].append({
             "inputs": {
                 "question": user_question,
             },

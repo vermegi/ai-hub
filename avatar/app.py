@@ -15,9 +15,18 @@ import traceback
 import uuid
 from flask import Flask, Response, render_template, request
 from azure.identity import DefaultAzureCredential
+from flask import Flask
+from flask import session
+from flask_session import Session
+from cachelib.file import FileSystemCache
 
 # Create the Flask app
 app = Flask(__name__, template_folder='.')
+SESSION_TYPE = 'cachelib'
+SESSION_SERIALIZATION_FORMAT = 'json'
+SESSION_CACHELIB = FileSystemCache(threshold=500, cache_dir="./sessions"),
+app.config.from_object(__name__)
+Session(app)
 
 # Environment variables
 # Speech resource (required)
@@ -287,17 +296,20 @@ def refreshSpeechToken() -> None:
 
 def initializeChatContext(client_id: uuid.UUID) -> None:
     global client_contexts
-    client_contexts[client_id]['orchestrator']=None
+    # client_contexts[client_id]['orchestrator']=None
+    orchestrator = orchestrator_class(s=session)
+    orchestrator.init_conversation()
         
 
 # Handle the user query and return the assistant reply. For chat scenario.
 # The function is a generator, which yields the assistant reply in chunks.
 def handleUserQuery(user_query: str, client_id: uuid.UUID):
-    global client_contexts
-    client_context = client_contexts[client_id]
-    if client_context['orchestrator'] is None:
-        client_context['orchestrator'] = orchestrator_class()
-    orchestrator = client_context['orchestrator']
+    # global client_contexts
+    # client_context = client_contexts[client_id]
+    # if client_context['orchestrator'] is None:
+    #     client_context['orchestrator'] = orchestrator_class()
+    # orchestrator = client_context['orchestrator']
+    orchestrator = orchestrator_class(s=session)
 
     if enable_quick_reply:
         speakWithQueue(random.choice(quick_replies), 2000)
@@ -407,3 +419,10 @@ speechTokenRefereshThread.start()
 
 # Fetch ICE token at startup
 refreshIceToken()
+
+# if __name__ == '__main__':
+#     cid = uuid.uuid4()
+#     res = handleUserQuery("What's the weather like", cid)
+#     for r in res:
+#         print(r)
+#     print("I'm out")
