@@ -340,7 +340,7 @@
                                         },
                                         {
                                             "name": "BLOB_CONNECTION_STRING_MSI",
-                                            "value": "[parameters('blobConnectionstringMsi')]"
+                                            "value": "[parameters('storageUrl')]"
                                         },
                                         {
                                             "name": "BLOB_CONTAINER_NAME",
