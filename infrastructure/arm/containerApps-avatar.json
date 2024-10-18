@@ -358,9 +358,6 @@
                             "apiVersion": "2024-03-01",
                             "name": "[variables('name-compliant-aca-job-node')]",
                             "location": "[parameters('location')]",
-                            "dependsOn": [
-                                "[resourceId('Microsoft.App/containerapps/', variables('name-compliant-aca-be'))]"
-                            ],
                             "identity": "[if(equals(parameters('acaSystemIdentity'), 'Yes'), variables('acaIdentity'), json('null'))]",
                             "properties": {
                               "configuration": {
