@@ -344,7 +344,7 @@
                                         },
                                         {
                                             "name": "BLOB_CONTAINER_NAME",
-                                            "value": "[parameters('blobContainerName')]"
+                                            "value": "avatardocs"
                                         }
                                     ]
                                   }
