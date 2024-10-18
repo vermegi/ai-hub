@@ -213,7 +213,7 @@
                                                     "value": "[reference(resourceId(subscription().subscriptionId, parameters('rgName'), 'Microsoft.CognitiveServices/accounts', variables('name-compliant-azureSpeech')), '2024-10-01', 'Full').properties.endpoint]"
                                                 },
                                                 {
-                                                    "name": "SPEECH_RESOURCE_URL ",
+                                                    "name": "SPEECH_RESOURCE_URL",
                                                     "value": "[reference(resourceId(subscription().subscriptionId, parameters('rgName'), 'Microsoft.CognitiveServices/accounts', variables('name-compliant-azureSpeech')), '2024-10-01', 'Full').resourceId]"
                                                 },
                                                 {
