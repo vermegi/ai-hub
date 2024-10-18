@@ -229,7 +229,7 @@
                                                     "value": "[parameters('pfEndpointName')]"
                                                 },
                                                 {
-                                                    "name": "PF_DEPLOYMENT_NAME ",
+                                                    "name": "PF_DEPLOYMENT_NAME",
                                                     "value": "[parameters('pfDeploymentName')]"
                                                 },
                                                 {
