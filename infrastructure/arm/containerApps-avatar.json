@@ -383,7 +383,7 @@
                                     "env": [
                                         {
                                             "name": "BACKEND_URI",
-                                            "value": "[reference(resourceId('Microsoft.App/containerApps', variables('name-compliant-aca-be'))).configuration.ingress.fqdn]"
+                                            "value": "[reference(resourceId('Microsoft.App/containerApps', variables('name-compliant-aca-be')), '2024-03-01', 'Full').configuration.ingress.fqdn]"
                                         }
                                     ]
                                   }
