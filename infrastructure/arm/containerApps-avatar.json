@@ -36,14 +36,6 @@
             "type": "string",
             "defaultValue": "westus"
         },
-        "speechUrl": {
-            "type": "string",
-            "defaultValue": ""
-        },
-        "speechResourceUrl": {
-            "type": "string",
-            "defaultValue": ""
-        },
         "pfEndpointName": {
             "type": "string",
             "defaultValue": ""
@@ -230,11 +222,11 @@
                                                 },
                                                 {
                                                     "name": "SPEECH_URL",
-                                                    "value": "[parameters('speechUrl')]"
+                                                    "value": "[reference(resourceId(subscription().subscriptionId, parameters('rgName'), 'Microsoft.CognitiveServices/accounts', variables('name-compliant-azureSpeech')), '2024-10-01', 'Full').properties.endpoint]"
                                                 },
                                                 {
                                                     "name": "SPEECH_RESOURCE_URL ",
-                                                    "value": "[parameters('speechResourceUrl')]"
+                                                    "value": "[reference(resourceId(subscription().subscriptionId, parameters('rgName'), 'Microsoft.CognitiveServices/accounts', variables('name-compliant-azureSpeech')), '2024-10-01', 'Full').resourceId]"
                                                 },
                                                 {
                                                     "name": "ORCHESTRATOR_MODULE",

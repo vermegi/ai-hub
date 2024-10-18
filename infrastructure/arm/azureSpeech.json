@@ -195,29 +195,9 @@
                                 ]
                             }
                         }
-                    ],
-                    "outputs": {
-                          "speechUrl": {
-                            "type": "string",
-                            "value": "[reference(resourceId(subscription().subscriptionId, parameters('rgName'), 'Microsoft.CognitiveServices/accounts', variables('name-compliant-azureSpeech')), '2024-10-01', 'Full').properties.endpoint]"
-                          },
-                          "speechResourceUrl": {
-                            "type": "string",
-                            "value": "[reference(resourceId(subscription().subscriptionId, parameters('rgName'), 'Microsoft.CognitiveServices/accounts', variables('name-compliant-azureSpeech')), '2024-10-01', 'Full').resourceId]"
-                          }
-                        }                 
+                    ]                 
                 }
             }
         }
-    ],
-    "outputs": {
-          "speechUrl": {
-            "type": "string",
-            "value": "[reference('azureSpeech').outputs.speechUrl.value]"
-          },
-          "speechResourceUrl": {
-            "type": "string",
-            "value": "[reference('azureSpeech').outputs.speechResourceUrl.value]"
-          }
-        }
+    ]
 }

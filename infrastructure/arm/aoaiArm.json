@@ -3569,12 +3569,6 @@
                             "speechRegion": {
                                 "value": "[parameters('location')]"
                             },
-                            "speechUrl": {
-                                "value": "[reference(variables('deploymentNames').azureSpeechDeploymentName).outputs.speechUrl.value]"
-                            },
-                            "speechResourceUrl": {
-                                "value": "[reference(variables('deploymentNames').azureSpeechDeploymentName).outputs.speechResourceUrl.value]"
-                            },
                             "pfEndpointName": {
                                 "value": "dummy"
                             },
