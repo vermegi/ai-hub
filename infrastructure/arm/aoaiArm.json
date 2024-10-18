@@ -3587,9 +3587,6 @@
                             "storageUrl": {
                                 "value": "[variables('blobStorageEndpoint')]"
                             },
-                            "blobConnectionstringMsi": {
-                                "value": "[parameters('blobConnectionstringMsi')]"
-                            },
                             "blobContainerName": {
                                 "value": "[parameters('blobContainerName')]"
                             },
