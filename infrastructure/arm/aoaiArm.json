@@ -3597,9 +3597,6 @@
                             "azureOpenAIModelName": {
                                 "value": "[variables('onYourDataSampleVariables').gptModelName]"
                             },
-                            "openaiApiVersion": {
-                                "value": "[parameters('openaiApiVersion')]"
-                            },
                             "searchServiceName": {
                                 "value": "[variables('resourceNames').azureAiSearchName]"
                             },

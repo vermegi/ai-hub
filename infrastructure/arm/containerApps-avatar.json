@@ -76,10 +76,6 @@
             "type": "string",
             "defaultValue": ""
         },
-        "openaiApiVersion": {
-            "type": "string",
-            "defaultValue": ""
-        },
         "searchServiceName": {
             "type": "string",
             "defaultValue": ""
@@ -321,10 +317,6 @@
                                         {
                                             "name": "OPENAI_MODEL_COMPLETION",
                                             "value": "[parameters('azureOpenAIModelName')]"
-                                        },
-                                        {
-                                            "name": "OPENAI_API_VERSION",
-                                            "value": "[parameters('openaiApiVersion')]"
                                         },
                                         {
                                             "name": "AISEARCH_NAME",
