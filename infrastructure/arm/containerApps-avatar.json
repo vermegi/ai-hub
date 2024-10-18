@@ -36,10 +36,6 @@
             "type": "string",
             "defaultValue": "westus"
         },
-        "speechSubscriptionKey": {
-            "type": "string",
-            "defaultValue": ""
-        },
         "speechUrl": {
             "type": "string",
             "defaultValue": ""
@@ -124,6 +120,7 @@
         "name-compliant-aca-job-node": "[toLower(take(concat(replace(replace(parameters('prefix'), '-', ''), '_', ''), parameters('location'), 'nodejob', uniqueString(deployment().name)), 23))]",
         "name-compliant-azMon": "[concat(parameters('prefix'), '-', parameters('location'), '-azmon')]",
         "name-compliant-acame": "[take(concat(parameters('prefix'), '-', parameters('location'), '-acame'), 23)]",
+        "name-compliant-azureSpeech": "[concat(parameters('prefix'), '-', parameters('location'), '-aispeech')]",
         "acaIdentity": {
             "type": "SystemAssigned"
         }
@@ -229,7 +226,7 @@
                                                 },
                                                 {
                                                     "name": "SPEECH_KEY",
-                                                    "value": "[parameters('speechSubscriptionKey')]"
+                                                    "value": "[listKeys(resourceId(subscription().subscriptionId, parameters('rgName'), 'Microsoft.CognitiveServices/accounts', variables('name-compliant-azureSpeech')), '2023-05-01').key1]"
                                                 },
                                                 {
                                                     "name": "SPEECH_URL",

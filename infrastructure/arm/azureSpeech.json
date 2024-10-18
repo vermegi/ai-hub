@@ -197,10 +197,6 @@
                         }
                     ],
                     "outputs": {
-                        "speechSubscriptionKey": {
-                            "type": "string",
-                             "value": "[listKeys(resourceId(subscription().subscriptionId, parameters('rgName'), 'Microsoft.CognitiveServices/accounts', variables('name-compliant-azureSpeech')), '2023-05-01').key1]"
-                          },
                           "speechUrl": {
                             "type": "string",
                             "value": "[reference(resourceId(subscription().subscriptionId, parameters('rgName'), 'Microsoft.CognitiveServices/accounts', variables('name-compliant-azureSpeech')), '2024-10-01', 'Full').properties.endpoint]"
@@ -215,10 +211,6 @@
         }
     ],
     "outputs": {
-        "speechSubscriptionKey": {
-            "type": "string",
-            "value": "[reference('azureSpeech').outputs.speechSubscriptionKey.value]"
-          },
           "speechUrl": {
             "type": "string",
             "value": "[reference('azureSpeech').outputs.speechUrl.value]"

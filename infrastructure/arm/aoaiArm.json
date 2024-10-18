@@ -3569,9 +3569,6 @@
                             "speechRegion": {
                                 "value": "[parameters('location')]"
                             },
-                            "speechSubscriptionKey": {
-                                "value": "[reference(variables('deploymentNames').azureSpeechDeploymentName).outputs.speechSubscriptionKey.value]"
-                            },
                             "speechUrl": {
                                 "value": "[reference(variables('deploymentNames').azureSpeechDeploymentName).outputs.speechUrl.value]"
                             },

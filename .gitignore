@@ -189,3 +189,5 @@ infrastructure/apps/functionassistant/.vscode
 infrastructure/terraform/.terraform.lock.hcl
 infrastructure/terraform/**/*.zip
 
+# excluding my temp files
+infrastructure/arm/temp_*.*
