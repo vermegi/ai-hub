@@ -60,10 +60,6 @@
             "type": "string",
             "defaultValue": ""
         },
-        "blobContainerName": {
-            "type": "string",
-            "defaultValue": ""
-        },
         "openaiApiType": {
             "type": "string",
             "defaultValue": "azure"
@@ -262,7 +258,7 @@
                                                 },
                                                 {
                                                     "name": "BLOB_CONTAINER_NAME",
-                                                    "value": "[parameters('blobContainerName')]"
+                                                    "value": "avatardocs"
                                                 }
                                             ]
                                         }

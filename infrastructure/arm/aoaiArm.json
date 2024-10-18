@@ -3588,9 +3588,6 @@
                             "storageUrl": {
                                 "value": "[variables('blobStorageEndpoint')]"
                             },
-                            "blobContainerName": {
-                                "value": "[parameters('blobContainerName')]"
-                            },
                             "openaiDeploymentEmbedding": {
                                 "value": "[concat(variables('onYourDataSampleVariables').embeddingDeploymentName, '-', variables('onYourDataSampleVariables').embeddingModelName)]"
                             },

@@ -273,6 +273,21 @@
                             }
                         },
                         {
+                            "condition": "[equals(parameters('aiUseCaseSelection'), 'avatar')]",
+                            "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+                            "apiVersion": "2023-01-01",
+                            "name": "[concat(variables('name-compliant-storage'), '/default/', 'avatardocs')]",
+                            "dependsOn": [
+                                "[concat('Microsoft.Storage/storageAccounts/', variables('name-compliant-storage'))]",
+                                "[concat('Microsoft.Storage/storageAccounts/', variables('name-compliant-storage'), '/blobServices', '/default')]"
+                            ],
+                            "properties": {
+                                "publicAccess": "None",
+                                "defaultEncryptionScope": "$account-encryption-key",
+                                "denyEncryptionScopeOverride": true
+                            }
+                        },                        
+                        {
                             "condition": "[equals(parameters('stMonCreation'), 'Yes')]",
                             "type": "Microsoft.Storage/storageAccounts/blobServices/providers/diagnosticSettings",
                             "apiVersion": "2021-05-01-preview",
